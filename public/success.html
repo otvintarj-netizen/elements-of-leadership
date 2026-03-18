@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація успішна | Елементи лідерства'26</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-dark: #1A0F0D;
+            --brand-primary: #C06B52;
+            --brand-paper: #F5F2ED;
+        }
+        body {
+            background-color: var(--brand-dark);
+            color: rgba(245, 242, 237, 0.9);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+        }
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+        }
+        .check-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            border-radius: 50%;
+            box-sizing: content-box;
+            border: 4px solid var(--brand-primary);
+        }
+        .check-icon::before {
+            top: 3px;
+            left: -2px;
+            width: 30px;
+            transform-origin: 100% 50%;
+            border-radius: 100px 0 0 100px;
+        }
+        .check-icon::after {
+            top: 0;
+            left: 30px;
+            width: 60px;
+            transform-origin: 0 50%;
+            border-radius: 0 100px 100px 0;
+            animation: rotate-circle 4.25s ease-in;
+        }
+        .check-icon::before, .check-icon::after {
+            content: '';
+            height: 100px;
+            position: absolute;
+            background: var(--brand-dark);
+            transform: rotate(-45deg);
+        }
+        .icon-line {
+            height: 5px;
+            background-color: var(--brand-primary);
+            display: block;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 10;
+        }
+        .icon-line.line-tip {
+            top: 46px;
+            left: 14px;
+            width: 25px;
+            transform: rotate(45deg);
+            animation: icon-line-tip 0.75s;
+        }
+        .icon-line.line-long {
+            top: 38px;
+            right: 8px;
+            width: 47px;
+            transform: rotate(-45deg);
+            animation: icon-line-long 0.75s;
+        }
+        .icon-circle {
+            top: -4px;
+            left: -4px;
+            z-index: 10;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid rgba(192, 107, 82, 0.2);
+            position: absolute;
+            box-sizing: content-box;
+        }
+        .icon-fix {
+            top: 8px;
+            width: 5px;
+            left: 26px;
+            z-index: 1;
+            height: 85px;
+            position: absolute;
+            transform: rotate(-45deg);
+            background-color: var(--brand-dark);
+        }
+        @keyframes rotate-circle {
+            0% { transform: rotate(-45deg); }
+            5% { transform: rotate(-45deg); }
+            12% { transform: rotate(-405deg); }
+            100% { transform: rotate(-405deg); }
+        }
+        @keyframes icon-line-tip {
+            0% { width: 0; left: 1px; top: 19px; }
+            54% { width: 0; left: 1px; top: 19px; }
+            70% { width: 50px; left: -8px; top: 37px; }
+            84% { width: 17px; left: 21px; top: 48px; }
+            100% { width: 25px; left: 14px; top: 46px; }
+        }
+        @keyframes icon-line-long {
+            0% { width: 0; right: 46px; top: 54px; }
+            65% { width: 0; right: 46px; top: 54px; }
+            84% { width: 55px; right: 0px; top: 35px; }
+            100% { width: 47px; right: 8px; top: 38px; }
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn-primary {
+            background-color: var(--brand-primary);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(192, 107, 82, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="max-w-2xl w-full px-6 py-12 text-center">
+        <!-- Animated Checkmark -->
+        <div class="success-checkmark">
+            <div class="check-icon">
+                <span class="icon-line line-tip"></span>
+                <span class="icon-line line-long"></span>
+                <div class="icon-circle"></div>
+                <div class="icon-fix"></div>
+            </div>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl mb-6 leading-tight">
+            Реєстрація успішна!<br>
+            <span style="color: var(--brand-primary)">Раді, що ти з нами</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-white/60 mb-12 leading-relaxed max-w-lg mx-auto">
+            Ми вже готуємося до зустрічі з тобою 17-18 квітня у церкві "Благодать". 
+            Це буде особливий час зростання та служіння з радістю.
+        </p>
+
+        <!-- Telegram Block -->
+        <div class="glass p-8 rounded-3xl mb-12 text-left relative overflow-hidden group">
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-[#C06B52]/10 blur-3xl rounded-full"></div>
+            <div class="relative z-10">
+                <h3 class="text-xl font-black uppercase tracking-tighter mb-2 flex items-center gap-3">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#C06B52]"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                    Telegram-канал конференції
+                </h3>
+                <p class="text-sm text-white/50 mb-6">
+                    Тут буде вся логістика, розклад воркшопів та важливі анонси. Приєднуйся, щоб нічого не пропустити!
+                </p>
+                <a href="#" class="btn-primary text-white px-8 py-4 rounded-full font-black text-sm uppercase tracking-widest inline-block w-full sm:w-auto text-center">
+                    Приєднатися до каналу
+                </a>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <a href="/" class="text-white/40 hover:text-white text-sm font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Повернутися на головну
+        </a>
+    </div>
+
+    <!-- Grain Overlay -->
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; opacity: 0.05; background-image: url(&quot;data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E&quot;);"></div>
+</body>
+</html>

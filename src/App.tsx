@@ -1107,16 +1107,14 @@ const RegistrationPage = () => {
                   </div>
                   <span className={`text-sm transition-colors ${errors.agreeOffer ? 'text-red-400' : 'text-white/70 group-hover:text-white'}`}>
                     Я погоджуюсь з умовами{' '}
-                    <button 
-                      type="button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setShowOffer(true);
-                      }}
+                    <Link 
+                      to="/offer"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-brand-primary hover:underline font-bold"
                     >
                       Публічної оферти
-                    </button>
+                    </Link>
                   </span>
                 </label>
                 {errors.agreeOffer && <p className="text-red-500 text-xs font-bold mt-1 pl-9">{errors.agreeOffer}</p>}
@@ -1544,6 +1542,92 @@ const PaymentResult = () => {
   );
 };
 
+const PublicOfferPage = () => {
+  return (
+    <div className="pt-32 pb-16 min-h-screen bg-brand-dark relative px-6">
+      <div className="max-w-3xl mx-auto glass p-8 md:p-12 rounded-3xl border border-white/10 prose prose-invert">
+        <h2 className="text-2xl font-black uppercase tracking-tighter mb-6 text-brand-primary">
+          ПУБЛІЧНА ОФЕРТА (ДОГОВІР)
+        </h2>
+        <p className="text-sm text-white/80 font-bold mb-4">
+          ПРО НАДАННЯ ПОСЛУГ З ОРГАНІЗАЦІЇ ТА ПРОВЕДЕННЯ КОНФЕРЕНЦІЇ
+        </p>
+        
+        <div className="space-y-6 text-sm text-white/60 leading-relaxed">
+          <section>
+            <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">1. ЗАГАЛЬНІ ПОЛОЖЕННЯ</h3>
+            <p className="mb-2">1.1. Цей Договір є офіційною пропозицією (публічною офертою) ФОП Марченко Віталій Романович (надалі — «Виконавець») для будь-якої фізичної особи (надалі — «Замовник») укласти Договір про надання послуг з організації та проведення конференції.</p>
+            <p>1.2. Акцептом (прийняттям) цієї Оферти є повна оплата Замовником вартості участі на сайті. З моменту оплати Договір вважається укладеним.</p>
+          </section>
+
+          <section>
+            <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">2. ПРЕДМЕТ ДОГОВОРУ</h3>
+            <p className="mb-2">2.1. Виконавець зобов’язується надати послуги з організації участі Замовника у дводенній конференції «Елементи лідерства» (надалі — «Захід»), що відбудеться 17 та 18 квітня 2026 року за адресою: вул. Київська, 40, Софіївська Борщагівка, Київська обл. (Церква «Благодать»).</p>
+            <p>2.2. Послуги включають доступ до програми Заходу протягом обох днів, кава-брейки, харчування та пакет учасника.</p>
+          </section>
+
+          <section>
+            <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">3. ВАРТІСТЬ ПОСЛУГ ТА ПОРЯДОК РОЗРАХУНКІВ</h3>
+            <p className="mb-2">3.1. Вартість участі у Заході становить:</p>
+            <ul className="list-disc pl-5 space-y-1 mb-2">
+              <li>При оплаті до 01 квітня 2026 року включно — 1500,00 грн.</li>
+              <li>При оплаті з 02 по 15 квітня 2026 року включно — 1700,00 грн.</li>
+            </ul>
+            <p>3.2. Оплата здійснюється у безготівковій формі через платіжний сервіс на сайті Виконавця. Реєстрація завершується 15 квітня 2026 року.</p>
+          </section>
+
+          <section>
+            <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">4. УМОВИ ВІДМОВИ ТА ПОВЕРНЕННЯ КОШТІВ</h3>
+            <p className="mb-2">4.1. У разі відмови Замовника від участі, повернення коштів здійснюється з урахуванням витрат Виконавця на адміністрування та бронювання послуг підрядників:</p>
+            <ul className="list-disc pl-5 space-y-2 mb-2">
+              <li>При відмові до 27 березня 2026 року включно: повертається 90% від сплаченої суми. Утримана частка (10%) є сервісним збором, що покриває банківські комісії та витрати на реєстрацію.</li>
+              <li>При відмові з 28 березня по 07 квітня 2026 року включно: повертається 50% від сплаченої суми.</li>
+              <li>При відмові після 07 квітня 2026 року: повернення коштів не здійснюється, оскільки всі витрати на організацію участі Замовника є фактично понесеними та незворотними.</li>
+            </ul>
+            <p>4.2. Замовник може передати своє право участі іншій особі, повідомивши про це Виконавця не пізніше ніж за 48 годин до початку Заходу.</p>
+          </section>
+
+          <section>
+            <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">5. ПЕРСОНАЛЬНІ ДАНІ</h3>
+            <p>5.1. Здійснюючи оплату, Замовник надає згоду на збір та обробку персональних даних (ПІБ, телефон, область, назва церкви) для організації Заходу та додавання до чату конференції у Telegram.</p>
+          </section>
+
+          <section className="pt-6 border-t border-white/10">
+            <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-4">6. РЕКВІЗИТИ ВИКОНАВЦЯ</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div>
+                <p className="text-white/40 uppercase mb-1">Виконавець</p>
+                <p className="text-white font-bold">ФОП Марченко Віталій Романович</p>
+              </div>
+              <div>
+                <p className="text-white/40 uppercase mb-1">ІПН</p>
+                <p className="text-white font-bold">3340008753</p>
+              </div>
+              <div className="md:col-span-2">
+                <p className="text-white/40 uppercase mb-1">Адреса реєстрації</p>
+                <p className="text-white font-bold">м. Запоріжжя, вул. Фортечна, 88/102</p>
+              </div>
+              <div>
+                <p className="text-white/40 uppercase mb-1">Email</p>
+                <p className="text-white font-bold">otvintarj@gmail.com</p>
+              </div>
+              <div>
+                <p className="text-white/40 uppercase mb-1">Тел</p>
+                <p className="text-white font-bold">+38 (093) 786-91-47</p>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div className="mt-8 flex justify-center">
+          <Link to="/" className="w-full text-center bg-brand-primary text-white py-4 rounded-2xl font-black uppercase tracking-widest text-sm hover:scale-[1.02] transition-transform">
+            Повернутися на головну сторінку
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -1566,6 +1650,7 @@ export default function App() {
             } />
             <Route path="/register" element={<RegistrationPage />} />
             <Route path="/payment-result" element={<PaymentResult />} />
+            <Route path="/offer" element={<PublicOfferPage />} />
           </Routes>
         </main>
         <Footer />

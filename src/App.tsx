@@ -736,7 +736,7 @@ const Speakers = () => {
       name: 'Барновський Сергій',
       role: 'Керівник БОБФ “Місце Зустрічі”',
       desc: 'Практик у сфері соціального служіння та допомоги.',
-      image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=400&h=500&auto=format&fit=crop'
+      image: '/speakers/барновський.JPG'
     },
     {
       name: 'Марченко Віталій',

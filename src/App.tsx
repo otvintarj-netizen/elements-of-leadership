@@ -58,18 +58,18 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-3' : 'bg-transparent py-6'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-2' : 'bg-transparent py-4'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-4 group">
+        <Link to="/" className="flex items-center gap-3 group">
           <div className="flex flex-col leading-none text-right shrink-0">
-            <span className="font-display font-black text-xl md:text-2xl tracking-tighter text-white uppercase group-hover:text-brand-primary transition-colors">
+            <span className="font-display font-black text-lg md:text-xl tracking-tighter text-white uppercase group-hover:text-brand-primary transition-colors">
               Елементи
             </span>
-            <span className="font-display font-black text-xl md:text-2xl tracking-tighter text-white uppercase -mt-1 group-hover:text-brand-primary transition-colors">
+            <span className="font-display font-black text-lg md:text-xl tracking-tighter text-white uppercase -mt-1 group-hover:text-brand-primary transition-colors">
               лідерства
             </span>
           </div>
-          <img src="/logo.png" alt="Logo" className="h-[6rem] md:h-[10.5rem] w-auto object-contain group-hover:scale-105 transition-transform" />
+          <img src="/logo.png" alt="Logo" className="h-[4.5rem] md:h-[7.5rem] w-auto object-contain group-hover:scale-105 transition-transform" />
         </Link>
 
         {/* Desktop Menu */}
@@ -163,7 +163,7 @@ const Hero = () => {
       <div 
         className="absolute inset-0 w-full h-full z-0 pointer-events-none md:hidden"
         style={{
-          backgroundImage: "url('/телефон.png')",
+          backgroundImage: "url('/телефон.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           opacity: 0.8,
@@ -175,7 +175,7 @@ const Hero = () => {
       <div 
         className="absolute inset-0 w-full h-full z-0 pointer-events-none hidden md:block"
         style={{
-          backgroundImage: "url('/головна.png')",
+          backgroundImage: "url('/головна.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           opacity: 0.8,
@@ -885,6 +885,7 @@ const RegistrationPage = () => {
   const [showOffer, setShowOffer] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '+380',
@@ -911,6 +912,20 @@ const RegistrationPage = () => {
       return;
     }
 
+    const newErrors: Record<string, string> = {};
+    if (formData.fullName.trim().length < 3) newErrors.fullName = "Введіть повне ПІБ (мінімум 3 символи)";
+    if (formData.phone.length < 13) newErrors.phone = "Введіть коректний номер телефону (10 цифр)";
+    if (!formData.region) newErrors.region = "Будь ласка, оберіть область";
+    if (formData.church.trim().length < 2) newErrors.church = "Введіть назву вашої церкви";
+    if (!formData.agreeOffer) newErrors.agreeOffer = "Необхідна згода з умовами публічної оферти";
+    if (!formData.agreeData) newErrors.agreeData = "Необхідна згода на обробку персональних даних";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
     setIsSubmitting(true);
 
     try {
@@ -993,17 +1008,21 @@ const RegistrationPage = () => {
             Реєстрація учасника
           </h1>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6" noValidate>
             <div className="space-y-2">
               <label className="text-xs font-black uppercase tracking-widest text-white/50 block">ПІБ</label>
               <input 
                 required
                 type="text"
                 placeholder="Введіть ваше повне ім'я"
-                className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-brand-primary transition-colors placeholder:text-white/20"
+                className={`w-full bg-white/5 border rounded-2xl px-6 py-4 text-white focus:outline-none transition-colors placeholder:text-white/20 ${errors.fullName ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-brand-primary'}`}
                 value={formData.fullName}
-                onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                onChange={(e) => {
+                  setFormData({...formData, fullName: e.target.value});
+                  if (errors.fullName) setErrors({...errors, fullName: ''});
+                }}
               />
+              {errors.fullName && <p className="text-red-500 text-xs font-bold mt-1">{errors.fullName}</p>}
             </div>
 
             <div className="space-y-2">
@@ -1014,16 +1033,18 @@ const RegistrationPage = () => {
                   required
                   type="tel"
                   placeholder="0 (__) ___-__-__"
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl pl-14 pr-6 py-4 text-white focus:outline-none focus:border-brand-primary transition-colors placeholder:text-white/20"
+                  className={`w-full bg-white/5 border rounded-2xl pl-14 pr-6 py-4 text-white focus:outline-none transition-colors placeholder:text-white/20 ${errors.phone ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-brand-primary'}`}
                   value={formData.phone.replace('+38', '')}
                   onChange={(e) => {
                     const val = e.target.value.replace(/\D/g, '');
                     if (val.length <= 10) {
                       setFormData({...formData, phone: '+38' + val});
+                      if (errors.phone) setErrors({...errors, phone: ''});
                     }
                   }}
                 />
               </div>
+              {errors.phone && <p className="text-red-500 text-xs font-bold mt-1">{errors.phone}</p>}
             </div>
 
             <div className="space-y-2">
@@ -1031,9 +1052,12 @@ const RegistrationPage = () => {
               <div className="relative">
                 <select 
                   required
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-brand-primary transition-colors appearance-none"
+                  className={`w-full bg-white/5 border rounded-2xl px-6 py-4 text-white focus:outline-none transition-colors appearance-none ${errors.region ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-brand-primary'}`}
                   value={formData.region}
-                  onChange={(e) => setFormData({...formData, region: e.target.value})}
+                  onChange={(e) => {
+                    setFormData({...formData, region: e.target.value});
+                    if (errors.region) setErrors({...errors, region: ''});
+                  }}
                 >
                   <option value="" disabled className="bg-brand-dark">Оберіть область</option>
                   {regions.map(r => (
@@ -1044,6 +1068,7 @@ const RegistrationPage = () => {
                   <ChevronRight className="w-4 h-4 rotate-90" />
                 </div>
               </div>
+              {errors.region && <p className="text-red-500 text-xs font-bold mt-1">{errors.region}</p>}
             </div>
 
             <div className="space-y-2">
@@ -1052,56 +1077,72 @@ const RegistrationPage = () => {
                 required
                 type="text"
                 placeholder="Введіть назву вашої церкви"
-                className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-brand-primary transition-colors placeholder:text-white/20"
+                className={`w-full bg-white/5 border rounded-2xl px-6 py-4 text-white focus:outline-none transition-colors placeholder:text-white/20 ${errors.church ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-brand-primary'}`}
                 value={formData.church}
-                onChange={(e) => setFormData({...formData, church: e.target.value})}
+                onChange={(e) => {
+                  setFormData({...formData, church: e.target.value});
+                  if (errors.church) setErrors({...errors, church: ''});
+                }}
               />
+              {errors.church && <p className="text-red-500 text-xs font-bold mt-1">{errors.church}</p>}
             </div>
 
             <div className="space-y-4 pt-4">
-              <label className="flex items-start gap-4 cursor-pointer group">
-                <div className="relative flex items-center mt-1">
-                  <input 
-                    required
-                    type="checkbox"
-                    className="peer sr-only"
-                    checked={formData.agreeOffer}
-                    onChange={(e) => setFormData({...formData, agreeOffer: e.target.checked})}
-                  />
-                  <div className="w-5 h-5 border-2 border-white/10 rounded bg-white/5 peer-checked:bg-brand-primary peer-checked:border-brand-primary transition-all flex items-center justify-center">
-                    <CheckCircle2 className="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" />
+              <div>
+                <label className="flex items-start gap-4 cursor-pointer group">
+                  <div className="relative flex items-center mt-1">
+                    <input 
+                      required
+                      type="checkbox"
+                      className="peer sr-only"
+                      checked={formData.agreeOffer}
+                      onChange={(e) => {
+                        setFormData({...formData, agreeOffer: e.target.checked});
+                        if (errors.agreeOffer) setErrors({...errors, agreeOffer: ''});
+                      }}
+                    />
+                    <div className={`w-5 h-5 border-2 rounded bg-white/5 peer-checked:bg-brand-primary peer-checked:border-brand-primary transition-all flex items-center justify-center ${errors.agreeOffer ? 'border-red-500' : 'border-white/10'}`}>
+                      <CheckCircle2 className="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" />
+                    </div>
                   </div>
-                </div>
-                <span className="text-sm text-white/70 group-hover:text-white transition-colors">
-                  Я погоджуюсь з умовами{' '}
-                  <button 
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowOffer(true);
-                    }}
-                    className="text-brand-primary hover:underline font-bold"
-                  >
-                    Публічної оферти
-                  </button>
-                </span>
-              </label>
+                  <span className={`text-sm transition-colors ${errors.agreeOffer ? 'text-red-400' : 'text-white/70 group-hover:text-white'}`}>
+                    Я погоджуюсь з умовами{' '}
+                    <button 
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setShowOffer(true);
+                      }}
+                      className="text-brand-primary hover:underline font-bold"
+                    >
+                      Публічної оферти
+                    </button>
+                  </span>
+                </label>
+                {errors.agreeOffer && <p className="text-red-500 text-xs font-bold mt-1 pl-9">{errors.agreeOffer}</p>}
+              </div>
 
-              <label className="flex items-start gap-4 cursor-pointer group">
-                <div className="relative flex items-center mt-1">
-                  <input 
-                    required
-                    type="checkbox"
-                    className="peer sr-only"
-                    checked={formData.agreeData}
-                    onChange={(e) => setFormData({...formData, agreeData: e.target.checked})}
-                  />
-                  <div className="w-5 h-5 border-2 border-white/10 rounded bg-white/5 peer-checked:bg-brand-primary peer-checked:border-brand-primary transition-all flex items-center justify-center">
-                    <CheckCircle2 className="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" />
+              <div>
+                <label className="flex items-start gap-4 cursor-pointer group">
+                  <div className="relative flex items-center mt-1">
+                    <input 
+                      required
+                      type="checkbox"
+                      className="peer sr-only"
+                      checked={formData.agreeData}
+                      onChange={(e) => {
+                        setFormData({...formData, agreeData: e.target.checked});
+                        if (errors.agreeData) setErrors({...errors, agreeData: ''});
+                      }}
+                    />
+                    <div className={`w-5 h-5 border-2 rounded bg-white/5 peer-checked:bg-brand-primary peer-checked:border-brand-primary transition-all flex items-center justify-center ${errors.agreeData ? 'border-red-500' : 'border-white/10'}`}>
+                      <CheckCircle2 className="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity" />
+                    </div>
                   </div>
-                </div>
-                <span className="text-sm text-white/70 group-hover:text-white transition-colors">Даю згоду на обробку персональних даних</span>
-              </label>
+                  <span className={`text-sm transition-colors ${errors.agreeData ? 'text-red-400' : 'text-white/70 group-hover:text-white'}`}>Даю згоду на обробку персональних даних</span>
+                </label>
+                {errors.agreeData && <p className="text-red-500 text-xs font-bold mt-1 pl-9">{errors.agreeData}</p>}
+              </div>
             </div>
 
             <button 

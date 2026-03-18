@@ -58,18 +58,18 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-2' : 'bg-transparent py-4'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-3 group">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-1 lg:py-1' : 'bg-transparent py-4'}`}>
+      <div className="max-w-7xl mx-auto px-6 py-0 flex justify-between items-center h-full">
+        <Link to="/" className="flex items-center gap-2 group">
           <div className="flex flex-col leading-none text-right shrink-0">
-            <span className="font-display font-black text-lg md:text-xl tracking-tighter text-white uppercase group-hover:text-brand-primary transition-colors">
+            <span className={`font-display font-black tracking-tighter text-white uppercase group-hover:text-brand-primary transition-all duration-300 ${isScrolled ? 'text-sm md:text-sm' : 'text-base md:text-lg'}`}>
               Елементи
             </span>
-            <span className="font-display font-black text-lg md:text-xl tracking-tighter text-white uppercase -mt-1 group-hover:text-brand-primary transition-colors">
+            <span className={`font-display font-black tracking-tighter text-white uppercase -mt-1 group-hover:text-brand-primary transition-all duration-300 ${isScrolled ? 'text-sm md:text-sm' : 'text-base md:text-lg'}`}>
               лідерства
             </span>
           </div>
-          <img src="/logo.png" alt="Logo" className="h-[4.5rem] md:h-[7.5rem] w-auto object-contain group-hover:scale-105 transition-transform" />
+          <img src="/logo.png" alt="Logo" className={`w-auto object-contain group-hover:scale-105 transition-all duration-300 ${isScrolled ? 'h-8 md:h-10' : 'h-10 md:h-14'}`} />
         </Link>
 
         {/* Desktop Menu */}
@@ -79,7 +79,7 @@ const Navbar = () => {
               <a 
                 key={link.name} 
                 href={link.href} 
-                className="text-xs font-bold uppercase tracking-widest text-white/70 hover:text-brand-primary transition-colors"
+                className={`font-bold uppercase tracking-widest text-white/70 hover:text-brand-primary transition-colors ${isScrolled ? 'text-[10px]' : 'text-xs'}`}
               >
                 {link.name}
               </a>
@@ -87,7 +87,7 @@ const Navbar = () => {
               <Link 
                 key={link.name} 
                 to={link.href} 
-                className="text-xs font-bold uppercase tracking-widest text-white/70 hover:text-brand-primary transition-colors"
+                className={`font-bold uppercase tracking-widest text-white/70 hover:text-brand-primary transition-colors ${isScrolled ? 'text-[10px]' : 'text-xs'}`}
               >
                 {link.name}
               </Link>
@@ -95,7 +95,7 @@ const Navbar = () => {
           ))}
           <Link 
             to="/register" 
-            className="bg-brand-primary hover:bg-brand-primary/80 text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-brand-primary/20"
+            className={`bg-brand-primary hover:bg-brand-primary/80 text-white px-6 rounded-full font-black uppercase tracking-widest transition-all shadow-lg shadow-brand-primary/20 ${isScrolled ? 'py-2 text-[10px]' : 'py-2.5 text-xs'}`}
           >
             Реєстрація
           </Link>
@@ -662,8 +662,8 @@ const Speakers = () => {
     },
     {
       name: 'Мурах Ростислав',
-      role: 'Єпископ УЦХВЄ',
-      desc: 'Старший пресвітер Хмельницького обласного об’єднання, директор Пасторського департаменту УЦХВЄ, координатор стратегічної ініціативи з розвитку душеопікунства УЦХВЄ.',
+      role: 'Єпископ УЦХВЄ в Хмельницькій області',
+      desc: 'Єпископ УЦХВЄ в Хмельницькій області.',
       image: '/speakers/Мурах.webp'
     },
     {

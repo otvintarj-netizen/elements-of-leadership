@@ -276,26 +276,7 @@ const Hero = () => {
             </a>
           </motion.div>
 
-          {/* Partner Logos */}
-          <motion.div 
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { delay: 0.5 } }
-            }}
-            className="flex items-center justify-end pt-12 border-t border-white/10"
-          >
-            <div className="flex items-center gap-3 opacity-80">
-              <div className="w-8 h-8 bg-brand-accent flex items-center justify-center" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }} />
-              <div className="flex flex-col leading-none">
-                <span className="font-display font-black text-sm tracking-tighter text-white uppercase">
-                  Рух
-                </span>
-                <span className="font-display font-black text-sm tracking-tighter text-white uppercase -mt-1">
-                  молоді
-                </span>
-              </div>
-            </div>
-          </motion.div>
+
         </motion.div>
       </div>
     </section>

@@ -975,7 +975,7 @@ const RegistrationPage = () => {
         orderDate: payData.orderDate,
         amount: payData.amount,
         currency: 'UAH',
-        productName: ['Квиток на EL2026'],
+        productName: ['Ticket'],
         productCount: ['1'],
         productPrice: [payData.amount.toString()],
         merchantSignature: payData.signature,

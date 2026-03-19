@@ -54,7 +54,6 @@ const Navbar = () => {
     { name: 'Програма', href: isHomePage ? '#program' : '/#program' },
     { name: 'Воркшопи', href: isHomePage ? '#workshops' : '/#workshops' },
     { name: 'Спікери', href: isHomePage ? '#speakers' : '/#speakers' },
-    { name: 'Реєстрація', href: isHomePage ? '#tickets' : '/#tickets' },
   ];
 
   return (

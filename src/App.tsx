@@ -150,7 +150,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-brand-primary">
+    <section className="relative pt-32 pb-12 md:pt-48 md:pb-16 overflow-hidden bg-brand-primary">
       {/* Background Image - Mobile */}
       <div 
         className="absolute inset-0 w-full h-full z-0 pointer-events-none md:hidden"
@@ -265,7 +265,7 @@ const Hero = () => {
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0 }
             }}
-            className="flex flex-wrap gap-6 mb-16"
+            className="flex flex-wrap gap-6"
           >
             <a 
               href="#tickets" 

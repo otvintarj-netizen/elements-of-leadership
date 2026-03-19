@@ -751,15 +751,19 @@ const Speakers = () => {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-0 left-0 right-0 p-5 transform translate-y-6 group-hover:translate-y-0 transition-all duration-300">
-                <h3 className="text-lg sm:text-xl font-bold text-white mb-1.5 leading-tight group-hover:mb-3 transition-all">
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <h3 className="text-lg sm:text-xl font-bold text-white leading-tight">
                   <span className="block">{speaker.name.split(' ')[0]}</span>
                   <span className="block">{speaker.name.split(' ').slice(1).join(' ')}</span>
                 </h3>
-                <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-95 group-hover:scale-100">
-                  <span className="text-[10px] sm:text-xs font-black text-brand-primary uppercase tracking-widest block leading-tight mb-2">{speaker.role}</span>
-                  <p className="text-white/60 text-xs leading-snug">{speaker.desc}</p>
+                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500">
+                  <div className="overflow-hidden">
+                    <div className="pt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      <span className="text-[10px] sm:text-xs font-black text-brand-primary uppercase tracking-widest block leading-tight mb-2">{speaker.role}</span>
+                      <p className="text-white/60 text-xs leading-snug">{speaker.desc}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>

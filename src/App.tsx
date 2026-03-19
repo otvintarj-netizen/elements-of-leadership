@@ -1426,7 +1426,7 @@ const PaymentSuccessPage = () => {
       fetch(SCRIPT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ orderId: lastOrderId, status: 'paid' })
+        body: JSON.stringify({ orderReference: lastOrderId, transactionStatus: 'Approved' })
       }).catch(err => console.error('Sheet update failed:', err));
       localStorage.removeItem('lastOrderId');
     }

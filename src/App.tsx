@@ -937,13 +937,22 @@ const RegistrationPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Не вдалося зберегти дані реєстрації. Перевірте підключення до мережі.');
+        const errorText = await response.text();
+        console.error('Script error response:', errorText);
+        throw new Error('Помилка сервера реєстрації. Перевірте дозволи в Google Script.');
       }
 
-      const payData = await response.json();
+      const responseText = await response.text();
+      let payData;
+      try {
+        payData = JSON.parse(responseText);
+      } catch (e) {
+        console.error('Invalid JSON from script:', responseText);
+        throw new Error(`Помилка формату даних: ${responseText}. Спробуйте оновити скрипт.`);
+      }
       
       if (!payData.signature) {
-        throw new Error('Помилка сервера: не вдалося отримати платіжні реквізити.');
+        throw new Error(payData.error || 'Помилка сервера: не вдалося отримати платіжні реквізити.');
       }
 
       // 2. Build and submit WayForPay Merchant Form (Automated way)

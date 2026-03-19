@@ -345,6 +345,9 @@ const Countdown = () => {
               <Zap className="w-6 h-6 text-brand-primary animate-pulse" />
             </div>
             <div>
+              <p className="text-[10px] text-white/30 font-black uppercase tracking-[0.2em] leading-tight">
+                БЕЗПЕЧНА ОПЛАТА ЧЕРЕЗ WAYFORPAY
+              </p>
               <h2 className="text-xl font-display font-black uppercase tracking-tighter leading-none">
                 Конференція <br />
                 <span className="text-brand-primary">наближається</span>
@@ -1405,7 +1408,7 @@ const Footer = () => {
           <p>© 2026 Рух молоді УЦХВЄ. Усі права захищені.</p>
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4" />
-            <span>Безпечна оплата через LiqPay</span>
+            <span>Безпечна оплата через WayForPay</span>
           </div>
         </div>
       </div>

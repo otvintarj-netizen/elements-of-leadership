@@ -950,7 +950,8 @@ const RegistrationPage = () => {
       const BTN_1500 = 'https://secure.wayforpay.com/button/be9202a2741d2';
       const BTN_1700 = 'https://secure.wayforpay.com/button/b494ef2210f47';
       
-      window.location.href = planInfo.price === 1500 ? BTN_1500 : BTN_1700;
+      // Fixed: use soft comparison or Number conversion to be sure
+      window.location.href = Number(planInfo.price) === 1500 ? BTN_1500 : BTN_1700;
 
     } catch (error: any) {
       console.error('Registration/Payment error:', error);

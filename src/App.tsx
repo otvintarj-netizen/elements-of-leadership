@@ -1420,92 +1420,53 @@ const ScrollToTop = () => {
   return null;
 };
 
-const PaymentResult = () => {
-  const [status, setStatus] = useState<'loading' | 'success' | 'failure'>('loading');
-  const [searchParams] = useSearchParams();
+const PaymentSuccessPage = () => {
   const navigate = useNavigate();
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyTHavH6suz9h9RsQsESiuuIRwsLNJbDdKypWBXSVx2RmUyb1P1Y5wCKj_AUHGjcuQR1Q/exec';
 
   useEffect(() => {
-    const transactionStatus = searchParams.get('transactionStatus');
     const lastOrderId = localStorage.getItem('lastOrderId');
-
-    if (transactionStatus === 'Approved') {
-      // SUCCESS: Notify spreadsheet
-      if (lastOrderId) {
-        fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({ orderId: lastOrderId, status: 'paid' })
-        }).catch(err => console.error('Failed to notify spreadsheet about payment:', err));
-        
-        localStorage.removeItem('lastOrderId');
-      }
-      setStatus('success');
-    } else if (transactionStatus) {
-      // FAILURE: Decline by bank etc.
-      setStatus('failure');
-    } else {
-      // No parameters found - might be direct access or incomplete session
-      const timer = setTimeout(() => {
-        setStatus('failure');
-      }, 2000);
-      return () => clearTimeout(timer);
+    if (lastOrderId) {
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ orderId: lastOrderId, status: 'paid' })
+      }).catch(err => console.error('Sheet update failed:', err));
+      localStorage.removeItem('lastOrderId');
     }
-  }, [searchParams]);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-brand-dark flex items-center justify-center p-6">
-      <div className="glass p-12 rounded-3xl max-w-md w-full text-center">
-        {status === 'loading' && (
-          <div className="flex flex-col items-center gap-6">
-            <div className="w-12 h-12 border-4 border-brand-primary border-t-transparent rounded-full animate-spin" />
-            <h2 className="text-2xl font-black uppercase tracking-tighter text-brand-primary">Перевірка...</h2>
-            <p className="text-white/50">Фіналізуємо вашу участь</p>
+    <div className="min-h-screen bg-brand-dark flex items-center justify-center p-6 text-center">
+      <div className="glass p-12 rounded-3xl max-w-sm w-full">
+        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
+          <div className="w-20 h-20 bg-brand-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckCircle2 className="text-brand-primary w-10 h-10" />
           </div>
-        )}
+          <h2 className="text-3xl font-black uppercase tracking-tighter text-brand-primary mb-4">ДЯКУЄМО!</h2>
+          <p className="text-white/70 mb-8 leading-relaxed">Вашу участь підтверджено. Приєднуйтесь до каналу:</p>
+          <a href="https://t.me/+ECK1eTuA07UxNTE6" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-[#229ED9] text-white px-8 py-4 rounded-2xl font-black uppercase text-sm w-full justify-center">
+            <Send className="w-5 h-5" /> Telegram Канал
+          </a>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
 
-        {status === 'success' && (
-          <motion.div 
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="flex flex-col items-center gap-6"
-          >
-            <div className="w-20 h-20 bg-brand-primary/20 rounded-full flex items-center justify-center mb-2">
-              <CheckCircle2 className="text-brand-primary w-10 h-10" />
-            </div>
-            <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter text-brand-primary">ДЯКУЄМО ЗА РЕЄСТРАЦІЮ!</h2>
-            <p className="text-white/70 text-lg leading-relaxed">
-              Вашу участь підтверджено. Ми вже чекаємо на вас! Обов'язково завітайте до нашого Telegram-каналу:
-            </p>
-            
-            <a 
-              href="https://t.me/+ECK1eTuA07UxNTE6"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 bg-[#229ED9] hover:bg-[#229ED9]/90 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-sm transition-all shadow-lg shadow-[#229ED9]/20 w-full justify-center"
-            >
-              <Send className="w-5 h-5" />
-              Приєднатися до Telegram
-            </a>
-          </motion.div>
-        )}
-
-        {status === 'failure' && (
-          <div className="flex flex-col items-center gap-6">
-            <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center">
-              <X className="text-red-500 w-8 h-8" />
-            </div>
-            <h2 className="text-2xl font-black md:text-3xl uppercase tracking-tighter text-red-500">Оплата не пройшла</h2>
-            <p className="text-white/70">Платіж не підтверджено або скасовано. Будь ласка, спробуйте ще раз або зверніться до підтримки.</p>
-            <button 
-              onClick={() => navigate('/register')}
-              className="bg-brand-primary text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-sm w-full"
-            >
-              Спробувати ще раз
-            </button>
-          </div>
-        )}
+const PaymentFailurePage = () => {
+  const navigate = useNavigate();
+  return (
+    <div className="min-h-screen bg-brand-dark flex items-center justify-center p-6 text-center">
+      <div className="glass p-12 rounded-3xl max-w-sm w-full">
+        <div className="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+          <X className="text-red-500 w-10 h-10" />
+        </div>
+        <h2 className="text-2xl font-black uppercase tracking-tighter text-red-500 mb-4">ОПЛАТА НЕ ПРОЙШЛА</h2>
+        <p className="text-white/70 mb-8 leading-relaxed">Платіж було скасовано або відхилено банком.</p>
+        <button onClick={() => navigate('/register')} className="bg-brand-primary text-white px-8 py-4 rounded-2xl font-black uppercase text-sm w-full">
+          Спробувати ще раз
+        </button>
       </div>
     </div>
   );
@@ -1618,7 +1579,8 @@ export default function App() {
               </>
             } />
             <Route path="/register" element={<RegistrationPage />} />
-            <Route path="/payment-result" element={<PaymentResult />} />
+            <Route path="/payment-success" element={<PaymentSuccessPage />} />
+            <Route path="/payment-failure" element={<PaymentFailurePage />} />
             <Route path="/offer" element={<PublicOfferPage />} />
           </Routes>
         </main>

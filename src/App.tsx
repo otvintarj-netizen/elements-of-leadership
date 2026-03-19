@@ -919,7 +919,7 @@ const RegistrationPage = () => {
     setErrors({});
     setIsSubmitting(true);
 
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_JRYXX3mlVoiBT_A4o7v299ZaGj05Je6TWA38UQr4RHAr_4B7QtJIYtiBHzjrliLy/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJ5VTqXZwZPG6oWVIFd11mCnzkD-wWuFoGOQnd2En5M7Xr2fKjQ6TQKPfjwU57DXNqbg/exec';
 
     try {
       // 1. Submit registration data to Google Script
@@ -1418,7 +1418,7 @@ const ScrollToTop = () => {
 
 const PaymentSuccessPage = () => {
   const navigate = useNavigate();
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_JRYXX3mlVoiBT_A4o7v299ZaGj05Je6TWA38UQr4RHAr_4B7QtJIYtiBHzjrliLy/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJ5VTqXZwZPG6oWVIFd11mCnzkD-wWuFoGOQnd2En5M7Xr2fKjQ6TQKPfjwU57DXNqbg/exec';
 
   useEffect(() => {
     const lastOrderId = localStorage.getItem('lastOrderId');

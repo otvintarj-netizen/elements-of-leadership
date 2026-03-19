@@ -760,8 +760,7 @@ const Speakers = () => {
                 <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500">
                   <div className="overflow-hidden">
                     <div className="pt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                      <span className="text-[10px] sm:text-xs font-black text-brand-primary uppercase tracking-widest block leading-tight mb-2">{speaker.role}</span>
-                      <p className="text-white/60 text-xs leading-snug">{speaker.desc}</p>
+                      <span className="text-[10px] sm:text-xs font-black text-brand-primary uppercase tracking-widest block leading-tight">{speaker.role}</span>
                     </div>
                   </div>
                 </div>

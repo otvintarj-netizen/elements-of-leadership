@@ -935,74 +935,22 @@ const RegistrationPage = () => {
         amount: planInfo.price
       };
 
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain', // Using text/plain to avoid CORS preflight issues with GAS
-        },
-        body: JSON.stringify(registrationData),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Script error response:', errorText);
-        throw new Error('Помилка сервера реєстрації. Перевірте дозволи в Google Script.');
-      }
-
-      const responseText = await response.text();
-      let payData;
+      // 1. Record to Google Sheet (Silent failure allowed)
       try {
-        payData = JSON.parse(responseText);
-      } catch (e) {
-        console.error('Invalid JSON from script:', responseText);
-        throw new Error(`Помилка формату даних: ${responseText}. Спробуйте оновити скрипт.`);
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify(registrationData),
+        });
+      } catch (err) {
+        console.warn('Sheet record failed, but proceeding to payment...', err);
       }
+
+      // 2. Direct Redirect to WayForPay Buttons
+      const BTN_1500 = 'https://secure.wayforpay.com/button/be9202a2741d2';
+      const BTN_1700 = 'https://secure.wayforpay.com/button/b494ef2210f47';
       
-      if (!payData.signature) {
-        throw new Error(payData.error || 'Помилка сервера: не вдалося отримати платіжні реквізити.');
-      }
-
-      // 2. Build and submit WayForPay Merchant Form (Automated way)
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = 'https://secure.wayforpay.com/pay';
-      form.acceptCharset = 'utf-8';
-
-      const params: Record<string, any> = {
-        merchantAccount: payData.account,
-        merchantDomainName: 'el26.gomolod.com.ua',
-        orderReference: payData.orderId,
-        orderDate: payData.orderDate,
-        amount: payData.amount,
-        currency: 'UAH',
-        productName: ['Ticket'],
-        productCount: ['1'],
-        productPrice: [payData.amount.toString()],
-        merchantSignature: payData.signature,
-        serviceUrl: SCRIPT_URL, // WayForPay calling our script to update "Paid" status
-        returnUrl: 'https://el26.gomolod.com.ua/payment-result',
-      };
-
-      Object.keys(params).forEach(key => {
-        if (Array.isArray(params[key])) {
-          params[key].forEach((val: any) => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = `${key}[]`;
-            input.value = val;
-            form.appendChild(input);
-          });
-        } else {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = key;
-          input.value = params[key];
-          form.appendChild(input);
-        }
-      });
-
-      document.body.appendChild(form);
-      form.submit();
+      window.location.href = planInfo.price === 1500 ? BTN_1500 : BTN_1700;
 
     } catch (error: any) {
       console.error('Registration/Payment error:', error);

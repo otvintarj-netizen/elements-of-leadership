@@ -1307,7 +1307,6 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-12 mb-10">
           <div className="col-span-2">
             <div className="flex flex-wrap items-center gap-8 mb-10">
-              <img src="/logo-site.png" alt="Рух молоді" className="h-36 w-auto object-contain" />
               <img src="/logo-elements.png" alt="Елементи лідерства" className="h-36 w-auto object-contain" />
             </div>
             <p className="text-white/60 max-w-sm mb-8 font-medium">

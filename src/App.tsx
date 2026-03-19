@@ -68,13 +68,13 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             link.href.startsWith('#') ? (
-              <a 
+              <Link 
                 key={link.name} 
-                href={link.href} 
+                to={`/${link.href}`} 
                 className={`font-bold uppercase tracking-widest text-white/70 hover:text-brand-primary transition-colors ${isScrolled ? 'text-[10px]' : 'text-xs'}`}
               >
                 {link.name}
-              </a>
+              </Link>
             ) : (
               <Link 
                 key={link.name} 
@@ -85,12 +85,12 @@ const Navbar = () => {
               </Link>
             )
           ))}
-          <a 
-            href="#tickets" 
+          <Link 
+            to="/#tickets" 
             className={`bg-brand-primary hover:bg-brand-primary/80 text-white px-6 rounded-full font-black uppercase tracking-widest transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center ${isScrolled ? 'py-2 text-[10px]' : 'py-2.5 text-xs'}`}
           >
             Реєстрація
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -114,14 +114,14 @@ const Navbar = () => {
             <div className="flex flex-col p-6 gap-4">
               {navLinks.map((link) => (
                 link.href.startsWith('#') ? (
-                  <a 
-                    key={link.name} 
-                    href={link.href} 
-                    className="text-lg font-medium text-slate-300"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {link.name}
-                  </a>
+                <Link 
+                  key={link.name} 
+                  to={`/${link.href}`} 
+                  className="text-lg font-bold uppercase tracking-widest text-white/70 hover:text-brand-primary transition-all py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.name}
+                </Link>
                 ) : (
                   <Link 
                     key={link.name} 
@@ -133,13 +133,13 @@ const Navbar = () => {
                   </Link>
                 )
               ))}
-              <a 
-                href="#tickets" 
-                className="bg-brand-primary text-white px-6 py-3 rounded-xl text-center font-semibold"
+              <Link 
+                to="/#tickets" 
+                className="bg-brand-primary text-white px-6 py-4 rounded-xl text-center font-black uppercase tracking-widest text-sm"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Зареєструватися
-              </a>
+              </Link>
             </div>
           </motion.div>
         )}

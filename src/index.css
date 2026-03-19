@@ -44,5 +44,5 @@
 
 .badge-slanted {
   transform: rotate(-2deg);
-  @apply bg-brand-accent text-white px-4 py-1 font-bold inline-block;
+  @apply bg-black text-white px-4 py-1 font-bold inline-block;
 }

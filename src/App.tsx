@@ -256,7 +256,7 @@ const Hero = () => {
               className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 px-6 py-3 rounded-full hover:bg-white/20 transition-colors group"
             >
               <MapPin className="text-white w-5 h-5 group-hover:scale-110 transition-transform" />
-              <span className="font-bold uppercase tracking-widest text-sm">ц. Благодать</span>
+              <span className="font-bold uppercase tracking-widest text-sm">ц. Благодать, Софіївська Борщагівка</span>
             </a>
           </motion.div>
 

@@ -927,36 +927,24 @@ const RegistrationPage = () => {
         throw new Error('Помилка при збереженні даних реєстрації.');
       }
 
-      const regData = await regResponse.json();
-      if (regData.registrationId) {
-        localStorage.setItem('lastRegistrationId', regData.registrationId);
+      try {
+        const regData = await regResponse.json();
+        if (regData.registrationId) {
+          localStorage.setItem('lastRegistrationId', regData.registrationId);
+        }
+      } catch (e) {
+        console.warn("Попередження: Не вдалося розпарсити відповідь реєстрації", e);
       }
 
-      // 2. Create payment
-      const payResponse = await fetch('/api/payment/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: parseInt(planInfo.price) * 100, // convert to cents
-          description: `Оплата участі: ${planInfo.name} - ${formData.fullName}`,
-        }),
-      });
-
-      if (!payResponse.ok) {
-        const errorData = await payResponse.json().catch(() => ({ message: 'Unknown server error' }));
-        throw new Error(errorData.message || `Помилка платіжної системи: ${payResponse.status}`);
+      // 2. Redirect to WayForPay payment button
+      let wayforpayUrl = "https://secure.wayforpay.com/button/bc50daa0e0637"; // 1500 грн
+      
+      if (planInfo.price === '1700') {
+        // TODO: Replace with actual 1700 UAH button link when provided
+        wayforpayUrl = "https://secure.wayforpay.com/button/bc50daa0e0637"; 
       }
 
-      const payData = await payResponse.json();
-
-      if (payData.pageUrl) {
-        // Redirect to Monobank payment page
-        window.location.href = payData.pageUrl;
-      } else {
-        throw new Error('Не вдалося отримати посилання на оплату.');
-      }
+      window.location.href = wayforpayUrl;
     } catch (error: any) {
       console.error('Submission error:', error);
       alert(error.message || 'Сталася помилка. Спробуйте ще раз.');

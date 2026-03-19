@@ -725,7 +725,7 @@ const Speakers = () => {
         <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
           <div>
             <h2 className="text-3xl md:text-5xl mb-4">Наші спікери</h2>
-            <p className="text-slate-400 max-w-xl">Люди, які живуть тим, про що говорять. Отримай досвід від кращих практиків.</p>
+            <p className="text-white/50 max-w-xl">Люди, які живуть тим, про що говорять. Отримай досвід від кращих практиків.</p>
           </div>
           <div className="hidden md:block">
             <Users className="w-16 h-16 text-brand-primary/20" />

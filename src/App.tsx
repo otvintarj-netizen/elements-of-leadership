@@ -868,7 +868,9 @@ const Tickets = () => {
 const RegistrationPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const planInfo = location.state as { price: string; name: string } | null;
+  const stateInfo = location.state as { price: string; name: string } | null;
+  // Default to Early Registration if no state is provided (e.g. from Retry button)
+  const planInfo = stateInfo || { price: '1500', name: 'Рання реєстрація' };
   
   const [showOffer, setShowOffer] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -894,12 +896,6 @@ const RegistrationPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!planInfo) {
-      alert('Будь ласка, оберіть тип реєстрації на головній сторінці.');
-      navigate('/');
-      return;
-    }
-
     const newErrors: Record<string, string> = {};
     if (formData.fullName.trim().length < 3) newErrors.fullName = "Введіть повне ПІБ (мінімум 3 символи)";
     if (formData.phone.length < 13) newErrors.phone = "Введіть коректний номер телефону (10 цифр)";

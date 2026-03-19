@@ -913,23 +913,23 @@ const RegistrationPage = () => {
     setErrors({});
     setIsSubmitting(true);
 
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFLzQTpKO0pyYdXr5mRaJDrDWmqAsJSFudkcqS4vkUhcngLfxgR2shJZwV9i9UJTNcHg/exec';
+
     try {
-      // 1. Submit registration data to Formspree
+      // 1. Submit registration data to Google Script
       const registrationData = {
         fullName: formData.fullName,
         phone: formData.phone,
         region: formData.region,
         church: formData.church,
         plan: planInfo.name,
-        price: planInfo.price + " грн",
-        submittedAt: new Date().toLocaleString("uk-UA", { timeZone: "Europe/Kyiv" })
+        amount: planInfo.price
       };
 
-      const response = await fetch('https://formspree.io/f/xeernaok', {
+      const response = await fetch(SCRIPT_URL, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Content-Type': 'text/plain', // Using text/plain to avoid CORS preflight issues with GAS
         },
         body: JSON.stringify(registrationData),
       });
@@ -938,18 +938,56 @@ const RegistrationPage = () => {
         throw new Error('Не вдалося зберегти дані реєстрації. Перевірте підключення до мережі.');
       }
 
-      // 2. Determine which WayForPay button to use
-      let wayforpayUrl = "https://secure.wayforpay.com/button/bc50daa0e0637"; // 1500 грн
+      const payData = await response.json();
       
-      if (planInfo.price === '1700') {
-        wayforpayUrl = "https://secure.wayforpay.com/button/b3291a707c647"; // 1700 грн
+      if (!payData.signature) {
+        throw new Error('Помилка сервера: не вдалося отримати платіжні реквізити.');
       }
 
-      // 3. Redirect to payment
-      window.location.href = wayforpayUrl;
+      // 2. Build and submit WayForPay Merchant Form (Automated way)
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://secure.wayforpay.com/pay';
+      form.acceptCharset = 'utf-8';
+
+      const params: Record<string, any> = {
+        merchantAccount: payData.account,
+        merchantDomainName: 'el26.gomolod.com.ua',
+        orderReference: payData.orderId,
+        orderDate: payData.orderDate,
+        amount: payData.amount,
+        currency: 'UAH',
+        productName: ['Квиток на конференцію EL2026'],
+        productCount: ['1'],
+        productPrice: [payData.amount],
+        merchantSignature: payData.signature,
+        serviceUrl: SCRIPT_URL, // WayForPay calling our script to update "Paid" status
+        returnUrl: 'https://el26.gomolod.com.ua/payment-result',
+      };
+
+      Object.keys(params).forEach(key => {
+        if (Array.isArray(params[key])) {
+          params[key].forEach((val: any) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = `${key}[]`;
+            input.value = val;
+            form.appendChild(input);
+          });
+        } else {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = params[key];
+          form.appendChild(input);
+        }
+      });
+
+      document.body.appendChild(form);
+      form.submit();
 
     } catch (error: any) {
-      console.error('Submission error:', error);
+      console.error('Registration/Payment error:', error);
       alert(error.message || 'Сталася помилка під час реєстрації. Спробуйте ще раз або зверніться до підтримки.');
     } finally {
       setIsSubmitting(false);
@@ -1402,40 +1440,60 @@ const PaymentResult = () => {
   useEffect(() => {
     const checkStatus = async () => {
       const params = new URLSearchParams(location.search);
-      const invoiceId = params.get('invoiceId');
+      const transactionStatus = params.get('transactionStatus');
+      const orderReference = params.get('orderReference');
+      const invoiceId = params.get('invoiceId'); // Legacy / Monobank
 
-      if (!invoiceId) {
-        setStatus('failure');
-        setError('Invoice ID not found');
+      // 1. Check for WayForPay direct status in URL
+      if (transactionStatus === 'Approved') {
+        setStatus('success');
         return;
       }
 
-      try {
-        const registrationId = localStorage.getItem('lastRegistrationId');
-        const url = registrationId 
-          ? `/api/payment/status/${invoiceId}?registrationId=${registrationId}`
-          : `/api/payment/status/${invoiceId}`;
-          
-        const response = await fetch(url);
-        const data = await response.json();
+      // 2. Fallback to old API logic if it was a legacy payment
+      if (invoiceId) {
+        try {
+          const registrationId = localStorage.getItem('lastRegistrationId');
+          const url = registrationId 
+            ? `/api/payment/status/${invoiceId}?registrationId=${registrationId}`
+            : `/api/payment/status/${invoiceId}`;
+            
+          const response = await fetch(url);
+          const data = await response.json();
 
-        if (data.status === 'success') {
-          setStatus('success');
-          // Clear registration ID after successful payment
-          localStorage.removeItem('lastRegistrationId');
-        } else if (data.status === 'processing' || data.status === 'created') {
-          setStatus('processing');
-          // Poll again in 3 seconds
-          setTimeout(checkStatus, 3000);
-        } else {
+          if (data.status === 'success') {
+            setStatus('success');
+            localStorage.removeItem('lastRegistrationId');
+          } else if (data.status === 'processing' || data.status === 'created') {
+            setStatus('processing');
+            setTimeout(checkStatus, 3000);
+          } else {
+            setStatus('failure');
+            setError(`Статус оплати: ${data.status}`);
+          }
+        } catch (err) {
+          console.error('Error checking payment status:', err);
           setStatus('failure');
-          setError(`Payment status: ${data.status}`);
+          setError('Не вдалося перевірити статус оплати');
         }
-      } catch (err) {
-        console.error('Error checking payment status:', err);
-        setStatus('failure');
-        setError('Failed to verify payment status');
+        return;
       }
+
+      // If we are here and have an orderReference with different status
+      if (orderReference && transactionStatus && transactionStatus !== 'Approved') {
+        setStatus('failure');
+        setError('Оплату не підтверджено або скасовано');
+        return;
+      }
+
+      // If no parameters found
+      setStatus('loading');
+      setTimeout(() => {
+        if (status === 'loading') {
+          setStatus('failure');
+          setError('Дані про транзакцію відсутні');
+        }
+      }, 5000);
     };
 
     checkStatus();

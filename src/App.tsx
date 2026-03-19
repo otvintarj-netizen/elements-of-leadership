@@ -1371,6 +1371,16 @@ const Footer = () => {
               <li><a href="#workshops" className="hover:text-brand-primary transition-colors">Воркшопи</a></li>
               <li><a href="#speakers" className="hover:text-brand-primary transition-colors">Спікери</a></li>
               <li><a href="#tickets" className="hover:text-brand-primary transition-colors">Квитки</a></li>
+              <li className="pt-4">
+                <a 
+                  href="https://docs.google.com/document/d/1jTglOzrs2CZsMnyQCFts0jYIacF0vta0yaLLMBw2iAs/edit?tab=t.0" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-block bg-white/10 hover:bg-white/20 border border-white/10 hover:border-brand-primary text-white px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg"
+                >
+                  Готелі для проживання
+                </a>
+              </li>
             </ul>
           </div>
         </div>

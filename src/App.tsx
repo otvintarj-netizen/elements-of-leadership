@@ -922,7 +922,7 @@ const RegistrationPage = () => {
     setErrors({});
     setIsSubmitting(true);
 
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxYA1xJxnR_Z9CKJ72gYzFkaNHjbZ2sSRGZH6LH9vdnnIBPljAtOmBYmjIEi0JNmHVRw/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxYfIWR8KdqUPkrx-szMWAj4dTLweonOfA__HRR8dmwUzNMaMncgPeS-bNs0WUanM-QZQ/exec';
 
     try {
       // 1. Submit registration data to Google Script

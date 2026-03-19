@@ -10,7 +10,8 @@ import {
   Route,
   Link,
   useNavigate,
-  useLocation
+  useLocation,
+  useSearchParams
 } from 'react-router-dom';
 import { 
   Calendar, 
@@ -1420,41 +1421,51 @@ const ScrollToTop = () => {
 };
 
 const PaymentResult = () => {
-  const [status, setStatus] = useState<'loading' | 'success'>('loading');
+  const [status, setStatus] = useState<'loading' | 'success' | 'failure'>('loading');
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL1Fm3n2XNxKZB5lNVPte_519d_CWsTyo0Wh9E01uyk5-zv5YviaVUzVTL2D-T5eCV-Q/exec';
 
   useEffect(() => {
-    // 1. Check if we have a pending order to update status for
+    const transactionStatus = searchParams.get('transactionStatus');
     const lastOrderId = localStorage.getItem('lastOrderId');
-    if (lastOrderId) {
-      // Update spreadsheet status to Paid
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ orderId: lastOrderId, status: 'paid' })
-      }).catch(err => console.error('Failed to notify spreadsheet about payment:', err));
-      
-      localStorage.removeItem('lastOrderId');
-    }
 
-    // 2. Simple success animation
-    const timer = setTimeout(() => {
+    if (transactionStatus === 'Approved') {
+      // SUCCESS: Notify spreadsheet
+      if (lastOrderId) {
+        fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ orderId: lastOrderId, status: 'paid' })
+        }).catch(err => console.error('Failed to notify spreadsheet about payment:', err));
+        
+        localStorage.removeItem('lastOrderId');
+      }
       setStatus('success');
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, []);
+    } else if (transactionStatus) {
+      // FAILURE: Decline by bank etc.
+      setStatus('failure');
+    } else {
+      // No parameters found - might be direct access or incomplete session
+      const timer = setTimeout(() => {
+        setStatus('failure');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen bg-brand-dark flex items-center justify-center p-6">
       <div className="glass p-12 rounded-3xl max-w-md w-full text-center">
-        {status === 'loading' ? (
+        {status === 'loading' && (
           <div className="flex flex-col items-center gap-6">
             <div className="w-12 h-12 border-4 border-brand-primary border-t-transparent rounded-full animate-spin" />
-            <h2 className="text-2xl font-black uppercase tracking-tighter text-brand-primary">Завершення...</h2>
-            <p className="text-white/50">Фіналізуємо вашу реєстрацію</p>
+            <h2 className="text-2xl font-black uppercase tracking-tighter text-brand-primary">Перевірка...</h2>
+            <p className="text-white/50">Фіналізуємо вашу участь</p>
           </div>
-        ) : (
+        )}
+
+        {status === 'success' && (
           <motion.div 
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -1477,16 +1488,23 @@ const PaymentResult = () => {
               <Send className="w-5 h-5" />
               Приєднатися до Telegram
             </a>
-
-            <div className="w-full pt-6 border-t border-white/10 mt-4">
-              <button 
-                onClick={() => navigate('/')}
-                className="w-full border border-white/10 text-white/50 px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:text-white hover:border-white/20 transition-all"
-              >
-                Повернутися на головну
-              </button>
-            </div>
           </motion.div>
+        )}
+
+        {status === 'failure' && (
+          <div className="flex flex-col items-center gap-6">
+            <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center">
+              <X className="text-red-500 w-8 h-8" />
+            </div>
+            <h2 className="text-2xl font-black md:text-3xl uppercase tracking-tighter text-red-500">Оплата не пройшла</h2>
+            <p className="text-white/70">Платіж не підтверджено або скасовано. Будь ласка, спробуйте ще раз або зверніться до підтримки.</p>
+            <button 
+              onClick={() => navigate('/register')}
+              className="bg-brand-primary text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-sm w-full"
+            >
+              Спробувати ще раз
+            </button>
+          </div>
         )}
       </div>
     </div>

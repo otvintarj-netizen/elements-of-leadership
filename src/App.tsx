@@ -1418,7 +1418,6 @@ const ScrollToTop = () => {
 
 const PaymentSuccessPage = () => {
   const navigate = useNavigate();
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRmZCbIa4CqyV1SG-AYobtbsDsZxaD5zxNR2zJPttjJPFWAh8NCbfKSE3lf6Cs1ZRrdw/exec';
 
   useEffect(() => {
     // Note: Manual browser-side update is disabled to let the script handle direct callbacks.

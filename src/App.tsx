@@ -54,7 +54,7 @@ const Navbar = () => {
     { name: 'Програма', href: isHomePage ? '#program' : '/#program' },
     { name: 'Воркшопи', href: isHomePage ? '#workshops' : '/#workshops' },
     { name: 'Спікери', href: isHomePage ? '#speakers' : '/#speakers' },
-    { name: 'Квитки', href: isHomePage ? '#tickets' : '/#tickets' },
+    { name: 'Реєстрація', href: isHomePage ? '#tickets' : '/#tickets' },
   ];
 
   return (
@@ -1357,7 +1357,7 @@ const Footer = () => {
               <li><a href="#program" className="hover:text-brand-primary transition-colors">Програма</a></li>
               <li><a href="#workshops" className="hover:text-brand-primary transition-colors">Воркшопи</a></li>
               <li><a href="#speakers" className="hover:text-brand-primary transition-colors">Спікери</a></li>
-              <li><a href="#tickets" className="hover:text-brand-primary transition-colors">Квитки</a></li>
+              <li><a href="#tickets" className="hover:text-brand-primary transition-colors">Реєстрація</a></li>
               <li className="pt-4">
                 <a 
                   href="https://docs.google.com/document/d/1jTglOzrs2CZsMnyQCFts0jYIacF0vta0yaLLMBw2iAs/edit?tab=t.0" 

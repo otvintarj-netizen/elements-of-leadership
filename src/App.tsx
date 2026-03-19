@@ -975,9 +975,9 @@ const RegistrationPage = () => {
         orderDate: payData.orderDate,
         amount: payData.amount,
         currency: 'UAH',
-        productName: ['Квиток на конференцію EL2026'],
+        productName: ['Квиток на EL2026'],
         productCount: ['1'],
-        productPrice: [payData.amount],
+        productPrice: [payData.amount.toString()],
         merchantSignature: payData.signature,
         serviceUrl: SCRIPT_URL, // WayForPay calling our script to update "Paid" status
         returnUrl: 'https://el26.gomolod.com.ua/payment-result',

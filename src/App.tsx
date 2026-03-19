@@ -912,6 +912,13 @@ const RegistrationPage = () => {
       return;
     }
 
+    // Anti-spam honeypot check
+    // @ts-ignore
+    if (formData._gotcha) {
+      console.warn('Spam detected via honeypot');
+      return;
+    }
+
     setErrors({});
     setIsSubmitting(true);
 
@@ -1028,6 +1035,17 @@ const RegistrationPage = () => {
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+            {/* Невидимий захист від ботів (Honeypot) */}
+            <div className="absolute opacity-0 pointer-events-none -z-50" aria-hidden="true">
+              <input 
+                type="text" 
+                name="_gotcha"
+                autoComplete="off"
+                tabIndex={-1}
+                // @ts-ignore
+                onChange={(e) => setFormData({...formData, _gotcha: e.target.value})}
+              />
+            </div>
             <div className="space-y-2">
               <label className="text-xs font-black uppercase tracking-widest text-white/50 block">ПІБ</label>
               <input 

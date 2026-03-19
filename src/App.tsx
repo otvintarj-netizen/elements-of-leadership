@@ -935,13 +935,23 @@ const RegistrationPage = () => {
         amount: planInfo.price
       };
 
-      // 1. Record to Google Sheet (Silent failure allowed)
+      // 1. Record to Google Sheet and save Order ID
       try {
-        await fetch(SCRIPT_URL, {
+        const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(registrationData),
         });
+        
+        const resText = await response.text();
+        try {
+          const data = JSON.parse(resText);
+          if (data.orderId) {
+            localStorage.setItem('lastOrderId', data.orderId);
+          }
+        } catch (e) {
+          console.warn('Response was not JSON:', resText);
+        }
       } catch (err) {
         console.warn('Sheet record failed, but proceeding to payment...', err);
       }
@@ -1411,10 +1421,24 @@ const ScrollToTop = () => {
 
 const PaymentResult = () => {
   const [status, setStatus] = useState<'loading' | 'success'>('loading');
-  const location = useLocation();
   const navigate = useNavigate();
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL1Fm3n2XNxKZB5lNVPte_519d_CWsTyo0Wh9E01uyk5-zv5YviaVUzVTL2D-T5eCV-Q/exec';
 
   useEffect(() => {
+    // 1. Check if we have a pending order to update status for
+    const lastOrderId = localStorage.getItem('lastOrderId');
+    if (lastOrderId) {
+      // Update spreadsheet status to Paid
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ orderId: lastOrderId, status: 'paid' })
+      }).catch(err => console.error('Failed to notify spreadsheet about payment:', err));
+      
+      localStorage.removeItem('lastOrderId');
+    }
+
+    // 2. Simple success animation
     const timer = setTimeout(() => {
       setStatus('success');
     }, 1500);

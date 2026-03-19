@@ -1410,93 +1410,27 @@ const ScrollToTop = () => {
 };
 
 const PaymentResult = () => {
-  const [status, setStatus] = useState<'loading' | 'success' | 'failure' | 'processing'>('loading');
-  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<'loading' | 'success'>('loading');
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkStatus = async () => {
-      const params = new URLSearchParams(location.search);
-      const transactionStatus = params.get('transactionStatus');
-      const orderReference = params.get('orderReference');
-      const invoiceId = params.get('invoiceId'); // Legacy / Monobank
-
-      // 1. Check for WayForPay direct status in URL
-      if (transactionStatus === 'Approved') {
-        setStatus('success');
-        return;
-      }
-
-      // 2. Fallback to old API logic if it was a legacy payment
-      if (invoiceId) {
-        try {
-          const registrationId = localStorage.getItem('lastRegistrationId');
-          const url = registrationId 
-            ? `/api/payment/status/${invoiceId}?registrationId=${registrationId}`
-            : `/api/payment/status/${invoiceId}`;
-            
-          const response = await fetch(url);
-          const data = await response.json();
-
-          if (data.status === 'success') {
-            setStatus('success');
-            localStorage.removeItem('lastRegistrationId');
-          } else if (data.status === 'processing' || data.status === 'created') {
-            setStatus('processing');
-            setTimeout(checkStatus, 3000);
-          } else {
-            setStatus('failure');
-            setError(`Статус оплати: ${data.status}`);
-          }
-        } catch (err) {
-          console.error('Error checking payment status:', err);
-          setStatus('failure');
-          setError('Не вдалося перевірити статус оплати');
-        }
-        return;
-      }
-
-      // If we are here and have an orderReference with different status
-      if (orderReference && transactionStatus && transactionStatus !== 'Approved') {
-        setStatus('failure');
-        setError('Оплату не підтверджено або скасовано');
-        return;
-      }
-
-      // If no parameters found
-      setStatus('loading');
-      setTimeout(() => {
-        if (status === 'loading') {
-          setStatus('failure');
-          setError('Дані про транзакцію відсутні');
-        }
-      }, 5000);
-    };
-
-    checkStatus();
-  }, [location]);
+    const timer = setTimeout(() => {
+      setStatus('success');
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="min-h-screen bg-brand-dark flex items-center justify-center p-6">
       <div className="glass p-12 rounded-3xl max-w-md w-full text-center">
-        {status === 'loading' && (
+        {status === 'loading' ? (
           <div className="flex flex-col items-center gap-6">
             <div className="w-12 h-12 border-4 border-brand-primary border-t-transparent rounded-full animate-spin" />
-            <h2 className="text-2xl font-black uppercase tracking-tighter">Перевірка оплати...</h2>
-            <p className="text-white/50">Зачекайте, ми підтверджуємо ваш платіж</p>
+            <h2 className="text-2xl font-black uppercase tracking-tighter text-brand-primary">Завершення...</h2>
+            <p className="text-white/50">Фіналізуємо вашу реєстрацію</p>
           </div>
-        )}
-
-        {status === 'processing' && (
-          <div className="flex flex-col items-center gap-6">
-            <div className="w-12 h-12 border-4 border-brand-primary border-t-transparent rounded-full animate-spin" />
-            <h2 className="text-2xl font-black uppercase tracking-tighter">Платіж обробляється</h2>
-            <p className="text-white/50">Ваш платіж ще в обробці. Це може зайняти кілька хвилин.</p>
-          </div>
-        )}
-
-        {status === 'success' && (
+        ) : (
           <motion.div 
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -1505,9 +1439,9 @@ const PaymentResult = () => {
             <div className="w-20 h-20 bg-brand-primary/20 rounded-full flex items-center justify-center mb-2">
               <CheckCircle2 className="text-brand-primary w-10 h-10" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter">Дякуємо за оплату!</h2>
-            <p className="text-white/70 text-lg">
-              Вашу реєстрацію підтверджено. Обов'язково приєднуйтесь до нашого каналу для отримання важливих новин:
+            <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter text-brand-primary">ДЯКУЄМО ЗА РЕЄСТРАЦІЮ!</h2>
+            <p className="text-white/70 text-lg leading-relaxed">
+              Вашу участь підтверджено. Ми вже чекаємо на вас! Обов'язково завітайте до нашого Telegram-каналу:
             </p>
             
             <a 
@@ -1529,22 +1463,6 @@ const PaymentResult = () => {
               </button>
             </div>
           </motion.div>
-        )}
-
-        {status === 'failure' && (
-          <div className="flex flex-col items-center gap-6">
-            <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center">
-              <X className="text-red-500 w-8 h-8" />
-            </div>
-            <h2 className="text-2xl font-black uppercase tracking-tighter">Помилка оплати</h2>
-            <p className="text-white/50">{error || 'Щось пішло не так під час перевірки платежу.'}</p>
-            <button 
-              onClick={() => navigate('/')}
-              className="bg-brand-primary text-white px-8 py-3 rounded-full font-black uppercase tracking-widest text-sm"
-            >
-              На головну
-            </button>
-          </div>
         )}
       </div>
     </div>

@@ -1421,15 +1421,8 @@ const PaymentSuccessPage = () => {
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJ5VTqXZwZPG6oWVIFd11mCnzkD-wWuFoGOQnd2En5M7Xr2fKjQ6TQKPfjwU57DXNqbg/exec';
 
   useEffect(() => {
-    const lastOrderId = localStorage.getItem('lastOrderId');
-    if (lastOrderId) {
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ orderReference: lastOrderId, transactionStatus: 'Approved' })
-      }).catch(err => console.error('Sheet update failed:', err));
-      localStorage.removeItem('lastOrderId');
-    }
+    // Note: Manual browser-side update is disabled to let the script handle direct callbacks.
+    localStorage.removeItem('lastOrderId');
   }, []);
 
   return (

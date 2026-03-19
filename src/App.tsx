@@ -85,12 +85,12 @@ const Navbar = () => {
               </Link>
             )
           ))}
-          <Link 
-            to="/register" 
-            className={`bg-brand-primary hover:bg-brand-primary/80 text-white px-6 rounded-full font-black uppercase tracking-widest transition-all shadow-lg shadow-brand-primary/20 ${isScrolled ? 'py-2 text-[10px]' : 'py-2.5 text-xs'}`}
+          <a 
+            href="#tickets" 
+            className={`bg-brand-primary hover:bg-brand-primary/80 text-white px-6 rounded-full font-black uppercase tracking-widest transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center ${isScrolled ? 'py-2 text-[10px]' : 'py-2.5 text-xs'}`}
           >
             Реєстрація
-          </Link>
+          </a>
         </div>
 
         {/* Mobile Toggle */}
@@ -133,13 +133,13 @@ const Navbar = () => {
                   </Link>
                 )
               ))}
-              <Link 
-                to="/register" 
+              <a 
+                href="#tickets" 
                 className="bg-brand-primary text-white px-6 py-3 rounded-xl text-center font-semibold"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Зареєструватися
-              </Link>
+              </a>
             </div>
           </motion.div>
         )}

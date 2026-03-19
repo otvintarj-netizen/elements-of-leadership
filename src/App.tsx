@@ -60,16 +60,8 @@ const Navbar = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-1 lg:py-1' : 'bg-transparent py-4'}`}>
       <div className="max-w-7xl mx-auto px-6 py-0 flex justify-between items-center h-full">
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="flex flex-col leading-none text-right shrink-0">
-            <span className={`font-display font-black tracking-tighter text-white uppercase group-hover:text-brand-primary transition-all duration-300 ${isScrolled ? 'text-sm md:text-sm' : 'text-base md:text-lg'}`}>
-              Елементи
-            </span>
-            <span className={`font-display font-black tracking-tighter text-white uppercase -mt-1 group-hover:text-brand-primary transition-all duration-300 ${isScrolled ? 'text-sm md:text-sm' : 'text-base md:text-lg'}`}>
-              лідерства
-            </span>
-          </div>
-          <img src="/logo.png" alt="Logo" className={`w-auto object-contain group-hover:scale-105 transition-all duration-300 ${isScrolled ? 'h-8 md:h-10' : 'h-10 md:h-14'}`} />
+        <Link to="/" className="flex items-center group">
+          <img src="/logo-site.png" alt="Елементи лідерства" className={`w-auto object-contain group-hover:scale-105 transition-all duration-300 ${isScrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'}`} />
         </Link>
 
         {/* Desktop Menu */}
@@ -1327,15 +1319,8 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-12 mb-10">
           <div className="col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="flex flex-col leading-none">
-                <span className="font-display font-black text-lg tracking-tighter text-white uppercase">
-                  Елементи
-                </span>
-                <span className="font-display font-black text-lg tracking-tighter text-white uppercase -mt-1">
-                  лідерства
-                </span>
-              </div>
+            <div className="flex items-center mb-6">
+              <img src="/logo-site.png" alt="Елементи лідерства" className="h-12 w-auto object-contain" />
             </div>
             <p className="text-white/60 max-w-sm mb-8 font-medium">
               Ми віримо, що кожен молодий лідер здатний змінити своє оточення через 

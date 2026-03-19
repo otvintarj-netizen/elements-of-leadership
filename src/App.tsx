@@ -940,8 +940,7 @@ const RegistrationPage = () => {
       let wayforpayUrl = "https://secure.wayforpay.com/button/bc50daa0e0637"; // 1500 грн
       
       if (planInfo.price === '1700') {
-        // TODO: Replace with actual 1700 UAH button link when provided
-        wayforpayUrl = "https://secure.wayforpay.com/button/bc50daa0e0637"; 
+        wayforpayUrl = "https://secure.wayforpay.com/button/b3291a707c647"; // 1700 грн
       }
 
       window.location.href = wayforpayUrl;

@@ -919,7 +919,7 @@ const RegistrationPage = () => {
     setErrors({});
     setIsSubmitting(true);
 
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJ5VTqXZwZPG6oWVIFd11mCnzkD-wWuFoGOQnd2En5M7Xr2fKjQ6TQKPfjwU57DXNqbg/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRmZCbIa4CqyV1SG-AYobtbsDsZxaD5zxNR2zJPttjJPFWAh8NCbfKSE3lf6Cs1ZRrdw/exec';
 
     try {
       // 1. Submit registration data to Google Script
@@ -1418,7 +1418,7 @@ const ScrollToTop = () => {
 
 const PaymentSuccessPage = () => {
   const navigate = useNavigate();
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzJ5VTqXZwZPG6oWVIFd11mCnzkD-wWuFoGOQnd2En5M7Xr2fKjQ6TQKPfjwU57DXNqbg/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRmZCbIa4CqyV1SG-AYobtbsDsZxaD5zxNR2zJPttjJPFWAh8NCbfKSE3lf6Cs1ZRrdw/exec';
 
   useEffect(() => {
     // Note: Manual browser-side update is disabled to let the script handle direct callbacks.

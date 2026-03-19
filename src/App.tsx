@@ -1306,8 +1306,9 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-12 mb-10">
           <div className="col-span-2">
-            <div className="flex items-center mb-6">
-              <img src="/logo-site.png" alt="Елементи лідерства" className="h-12 w-auto object-contain" />
+            <div className="flex flex-wrap items-center gap-8 mb-10">
+              <img src="/logo-site.png" alt="Рух молоді" className="h-36 w-auto object-contain" />
+              <img src="/logo-elements.png" alt="Елементи лідерства" className="h-36 w-auto object-contain" />
             </div>
             <p className="text-white/60 max-w-sm mb-8 font-medium">
               Ми віримо, що кожен молодий лідер здатний змінити своє оточення через 
@@ -1373,7 +1374,7 @@ const Footer = () => {
         </div>
 
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold uppercase tracking-widest text-white/30">
-          <p>© 2026 Elements Leadership. Усі права захищені.</p>
+          <p>© 2026 Рух молоді УЦХВЄ. Усі права захищені.</p>
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4" />
             <span>Безпечна оплата через LiqPay</span>

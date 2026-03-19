@@ -914,45 +914,43 @@ const RegistrationPage = () => {
     setIsSubmitting(true);
 
     try {
-      // 1. Register the user
-      const regResponse = await fetch('/api/register', {
+      // 1. Submit registration data to Formspree
+      const registrationData = {
+        fullName: formData.fullName,
+        phone: formData.phone,
+        region: formData.region,
+        church: formData.church,
+        plan: planInfo.name,
+        price: planInfo.price + " грн",
+        submittedAt: new Date().toLocaleString("uk-UA", { timeZone: "Europe/Kyiv" })
+      };
+
+      const response = await fetch('https://formspree.io/f/xeernaok', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
-        body: JSON.stringify({
-          fullName: formData.fullName,
-          phone: formData.phone,
-          region: formData.region,
-          church: formData.church,
-          plan: planInfo.name
-        }),
+        body: JSON.stringify(registrationData),
       });
 
-      if (!regResponse.ok) {
-        throw new Error('Помилка при збереженні даних реєстрації.');
+      if (!response.ok) {
+        throw new Error('Не вдалося зберегти дані реєстрації. Перевірте підключення до мережі.');
       }
 
-      try {
-        const regData = await regResponse.json();
-        if (regData.registrationId) {
-          localStorage.setItem('lastRegistrationId', regData.registrationId);
-        }
-      } catch (e) {
-        console.warn("Попередження: Не вдалося розпарсити відповідь реєстрації", e);
-      }
-
-      // 2. Redirect to WayForPay payment button
+      // 2. Determine which WayForPay button to use
       let wayforpayUrl = "https://secure.wayforpay.com/button/bc50daa0e0637"; // 1500 грн
       
       if (planInfo.price === '1700') {
         wayforpayUrl = "https://secure.wayforpay.com/button/b3291a707c647"; // 1700 грн
       }
 
+      // 3. Redirect to payment
       window.location.href = wayforpayUrl;
+
     } catch (error: any) {
       console.error('Submission error:', error);
-      alert(error.message || 'Сталася помилка. Спробуйте ще раз.');
+      alert(error.message || 'Сталася помилка під час реєстрації. Спробуйте ще раз або зверніться до підтримки.');
     } finally {
       setIsSubmitting(false);
     }

@@ -672,7 +672,7 @@ const Speakers = () => {
     },
     {
       name: 'Орищин Олександр',
-      role: 'Пастор церкви «Еммануїл» м. Чернівці',
+      role: 'Пастор церкви',
       desc: 'Служитель, що надихає молодь на розвиток.',
       image: '/speakers/Орищин Олександр 4.webp'
     },
@@ -770,13 +770,16 @@ const Speakers = () => {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-80" />
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <h3 className="text-lg sm:text-xl font-bold text-white mb-1.5 leading-tight">
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute bottom-0 left-0 right-0 p-5 transform translate-y-6 group-hover:translate-y-0 transition-all duration-300">
+                <h3 className="text-lg sm:text-xl font-bold text-white mb-1.5 leading-tight group-hover:mb-3 transition-all">
                   <span className="block">{speaker.name.split(' ')[0]}</span>
                   <span className="block">{speaker.name.split(' ').slice(1).join(' ')}</span>
                 </h3>
-                <span className="text-[10px] sm:text-xs font-black text-brand-primary uppercase tracking-widest block leading-tight">{speaker.role}</span>
+                <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-95 group-hover:scale-100">
+                  <span className="text-[10px] sm:text-xs font-black text-brand-primary uppercase tracking-widest block leading-tight mb-2">{speaker.role}</span>
+                  <p className="text-white/60 text-xs leading-snug">{speaker.desc}</p>
+                </div>
               </div>
             </motion.div>
           ))}

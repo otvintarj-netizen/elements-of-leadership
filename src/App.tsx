@@ -61,7 +61,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-1 lg:py-1' : 'bg-transparent py-4'}`}>
       <div className="max-w-7xl mx-auto px-6 py-0 flex justify-between items-center h-full">
         <Link to="/" className="flex items-center group">
-          <img src="/logo-site.png" alt="Елементи лідерства" className={`w-auto object-contain group-hover:scale-105 transition-all duration-300 ${isScrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'}`} />
+          <img src="/logo-site.png" alt="Елементи лідерства" className={`w-auto object-contain group-hover:scale-105 transition-all duration-300 ${isScrolled ? 'h-12 md:h-16' : 'h-36 md:h-48'}`} />
         </Link>
 
         {/* Desktop Menu */}

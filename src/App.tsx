@@ -923,7 +923,7 @@ const RegistrationPage = () => {
     setErrors({});
     setIsSubmitting(true);
 
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL1Fm3n2XNxKZB5lNVPte_519d_CWsTyo0Wh9E01uyk5-zv5YviaVUzVTL2D-T5eCV-Q/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyTHavH6suz9h9RsQsESiuuIRwsLNJbDdKypWBXSVx2RmUyb1P1Y5wCKj_AUHGjcuQR1Q/exec';
 
     try {
       // 1. Submit registration data to Google Script
@@ -1424,7 +1424,7 @@ const PaymentResult = () => {
   const [status, setStatus] = useState<'loading' | 'success' | 'failure'>('loading');
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL1Fm3n2XNxKZB5lNVPte_519d_CWsTyo0Wh9E01uyk5-zv5YviaVUzVTL2D-T5eCV-Q/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyTHavH6suz9h9RsQsESiuuIRwsLNJbDdKypWBXSVx2RmUyb1P1Y5wCKj_AUHGjcuQR1Q/exec';
 
   useEffect(() => {
     const transactionStatus = searchParams.get('transactionStatus');

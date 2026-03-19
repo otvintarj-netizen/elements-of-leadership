@@ -775,20 +775,25 @@ const Speakers = () => {
 
 
 const Tickets = () => {
+  const cutoffDate = new Date('2026-04-02T00:00:00+03:00'); // 2 квітня за Києвом
+  const isAfterCutoff = new Date() >= cutoffDate;
+
   const plans = [
     {
       name: 'Рання реєстрація',
       period: 'до 1 квітня включно',
       price: '1500',
       features: ['Доступ до всіх сесій', 'Кава-брейки', 'Повноцінне харчування', 'Пакет учасника'],
-      isPopular: true
+      isPopular: !isAfterCutoff,
+      isDisabled: isAfterCutoff
     },
     {
       name: 'Стандартна реєстрація',
       period: 'з 2 по 15 квітня',
       price: '1700',
       features: ['Доступ до всіх сесій', 'Кава-брейки', 'Повноцінне харчування', 'Пакет учасника'],
-      isPopular: false
+      isPopular: isAfterCutoff,
+      isDisabled: false
     }
   ];
 
@@ -839,10 +844,11 @@ const Tickets = () => {
               </ul>
 
               <button 
-                onClick={() => handleSelectPlan(plan.price, plan.name)}
-                className={`w-full py-4 rounded-2xl font-black uppercase tracking-widest text-sm transition-all text-center flex items-center justify-center gap-2 ${plan.isPopular ? 'bg-white text-brand-primary hover:bg-white/90' : 'bg-brand-primary text-white hover:bg-brand-primary/90'}`}
+                onClick={() => !plan.isDisabled && handleSelectPlan(plan.price, plan.name)}
+                disabled={plan.isDisabled}
+                className={`w-full py-4 rounded-2xl font-black uppercase tracking-widest text-sm transition-all text-center flex items-center justify-center gap-2 ${plan.isDisabled ? 'bg-white/10 text-white/30 cursor-not-allowed' : plan.isPopular ? 'bg-white text-brand-primary hover:bg-white/90' : 'bg-brand-primary text-white hover:bg-brand-primary/90'}`}
               >
-                Зареєструватися ({plan.price} грн)
+                {plan.isDisabled ? 'Реєстрацію завершено' : `Зареєструватися (${plan.price} грн)`}
               </button>
             </motion.div>
           ))}

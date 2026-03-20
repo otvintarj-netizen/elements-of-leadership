@@ -1368,6 +1368,14 @@ const Footer = () => {
                 <Globe className="w-4 h-4 text-brand-primary" />
                 <a href="https://gomolod.com.ua/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-primary transition-colors">gomolod.com.ua</a>
               </li>
+              <li className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-brand-primary" />
+                <a href="mailto:otvintarj@gmail.com" className="hover:text-brand-primary transition-colors">otvintarj@gmail.com</a>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-brand-primary" />
+                <a href="tel:+380937869147" className="hover:text-brand-primary transition-colors">+38 (093) 786-91-47</a>
+              </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-brand-primary shrink-0 mt-1" />
                 <a 
@@ -1387,13 +1395,15 @@ const Footer = () => {
 
           <div>
             <h4 className="text-white font-black uppercase tracking-tighter mb-6">Юридична інформація</h4>
-            <ul className="space-y-4 text-white/60 font-medium">
-              <li><Link to="/offer" className="hover:text-brand-primary transition-colors">Публічна оферта</Link></li>
-              <li><Link to="/offer#refund" className="hover:text-brand-primary transition-colors">Політика повернення</Link></li>
-              <li><Link to="/offer#payment" className="hover:text-brand-primary transition-colors">Оплата та доставка</Link></li>
-              <li className="pt-4 flex gap-3 opacity-50 grayscale hover:grayscale-0 transition-all">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-4 w-auto object-contain" />
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-6 w-auto object-contain" />
+            <ul className="space-y-4 text-white/60 text-xs font-medium">
+              <li className="text-white/80 font-bold">ФОП Марченко Віталій Романович</li>
+              <li>ІПН: 3340008753</li>
+              <li className="pt-2"><Link to="/offer" className="text-white hover:text-brand-primary transition-colors border-b border-white/20 pb-0.5">Публічна оферта</Link></li>
+              <li><Link to="/offer#refund" className="text-white hover:text-brand-primary transition-colors border-b border-white/10 pb-0.5">Політика повернення</Link></li>
+              <li><Link to="/offer#payment" className="text-white hover:text-brand-primary transition-colors border-b border-white/10 pb-0.5">Оплата та доставка</Link></li>
+              <li className="pt-4 flex gap-4 bg-white/5 p-3 rounded-xl w-fit">
+                <img src="https://static.wayforpay.com/img/visa.svg" alt="Visa" className="h-4 w-auto object-contain" />
+                <img src="https://static.wayforpay.com/img/mastercard.svg" alt="Mastercard" className="h-6 w-auto object-contain" />
               </li>
             </ul>
           </div>

@@ -37,6 +37,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Analytics } from '@vercel/analytics/react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -1580,6 +1581,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <Analytics />
       <div className="min-h-screen relative">
         <div className="grain" />
         <Navbar />

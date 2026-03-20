@@ -34,7 +34,8 @@ import {
   Globe,
   Send,
   Youtube,
-  ArrowLeft
+  ArrowLeft,
+  Hotel
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Analytics } from '@vercel/analytics/react';
@@ -274,6 +275,15 @@ const Hero = () => {
             >
               Реєстрація
               <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a 
+              href="https://docs.google.com/document/d/1jTglOzrs2CZsMnyQCFts0jYIacF0vta0yaLLMBw2iAs/edit?usp=drivesdk" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white/10 backdrop-blur-md border border-white/20 px-10 py-5 rounded-full font-bold text-xl uppercase tracking-tighter transition-all flex items-center gap-3 hover:bg-white/20"
+            >
+              Готелі
+              <Hotel className="w-6 h-6 group-hover:scale-110 transition-transform" />
             </a>
           </motion.div>
 

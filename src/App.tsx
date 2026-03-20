@@ -992,7 +992,7 @@ const RegistrationPage = () => {
     <div className="min-h-screen pt-32 pb-20 px-6 relative">
       <div className="max-w-2xl mx-auto relative z-10">
         <motion.button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/')}
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
           className="flex items-center gap-2 text-white/50 hover:text-brand-primary transition-colors mb-8 font-bold uppercase tracking-widest text-xs"
@@ -1475,8 +1475,20 @@ const PaymentFailurePage = () => {
 };
 
 const PublicOfferPage = () => {
+  const navigate = useNavigate();
   return (
     <div className="pt-32 pb-16 min-h-screen bg-brand-dark relative px-6">
+      <div className="max-w-3xl mx-auto relative z-10">
+        <motion.button
+          onClick={() => navigate('/')}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="flex items-center gap-2 text-white/50 hover:text-brand-primary transition-colors mb-8 font-bold uppercase tracking-widest text-xs"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          НАЗАД
+        </motion.button>
+      </div>
       <div className="max-w-3xl mx-auto glass p-8 md:p-12 rounded-3xl border border-white/10 prose prose-invert">
         <h2 className="text-2xl font-black uppercase tracking-tighter mb-6 text-brand-primary">
           ПУБЛІЧНА ОФЕРТА (ДОГОВІР)

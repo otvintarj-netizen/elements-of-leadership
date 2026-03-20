@@ -897,10 +897,30 @@ const RegistrationPage = () => {
     e.preventDefault();
     
     const newErrors: Record<string, string> = {};
-    if (formData.fullName.trim().length < 3) newErrors.fullName = "Введіть повне ПІБ (мінімум 3 символи)";
-    if (formData.phone.length < 13) newErrors.phone = "Введіть коректний номер телефону (10 цифр)";
-    if (!formData.region) newErrors.region = "Будь ласка, оберіть область";
-    if (formData.church.trim().length < 2) newErrors.church = "Введіть назву вашої церкви";
+    const cleanName = formData.fullName.trim();
+    const cleanPhone = formData.phone.replace(/\D/g, "");
+    const cleanChurch = formData.church.trim();
+
+    if (cleanName.length < 3) {
+      newErrors.fullName = "Введіть повне ПІБ (мінімум 3 символи)";
+    } else if (cleanName === "---") {
+      newErrors.fullName = "Некоректне ім'я";
+    }
+
+    if (cleanPhone.length < 10) {
+      newErrors.phone = "Введіть коректний номер телефону (10 цифр)";
+    }
+
+    if (!formData.region || formData.region === "Оберіть область") {
+      newErrors.region = "Будь ласка, оберіть область";
+    }
+
+    if (cleanChurch.length < 2) {
+      newErrors.church = "Введіть назву вашої церкви";
+    } else if (cleanChurch === "---") {
+      newErrors.church = "Некоректна назва церкви";
+    }
+
     if (!formData.agreeOffer) newErrors.agreeOffer = "Необхідна згода з умовами публічної оферти";
     if (!formData.agreeData) newErrors.agreeData = "Необхідна згода на обробку персональних даних";
 
@@ -1178,13 +1198,13 @@ const RegistrationPage = () => {
               </h2>
               
               <p className="text-white/70 leading-relaxed mb-10 font-medium">
-                Зараз ви будете перенаправлені на сторінку безпечної оплати <span className="text-white font-bold">Monobank</span>. 
+                Зараз ви будете перенаправлені на сторінку безпечної оплати <span className="text-white font-bold">WayForPay</span>. 
                 Після оплати обов’язково приєднуйтесь в <span className="text-brand-primary font-bold">Telegram-чат</span> учасників.
               </p>
 
               <button 
                 onClick={() => {
-                  window.location.href = "https://send.monobank.ua/jar/example";
+                  window.location.href = planInfo.price === '1500' ? 'https://secure.wayforpay.com/button/be9202a2741d2' : 'https://secure.wayforpay.com/button/b494ef2210f47';
                 }}
                 className="w-full bg-brand-primary text-white py-5 rounded-2xl font-black uppercase tracking-widest text-sm shadow-xl shadow-brand-primary/20 hover:scale-[1.02] transition-transform"
               >
@@ -1246,25 +1266,26 @@ const RegistrationPage = () => {
                     <p>2.2. Послуги включають доступ до програми Заходу протягом обох днів, кава-брейки, харчування та пакет учасника.</p>
                   </section>
 
-                  <section>
-                    <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">3. ВАРТІСТЬ ПОСЛУГ ТА ПОРЯДОК РОЗРАХУНКІВ</h3>
+                  <section id="payment">
+                    <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">3. ВАРТІСТЬ ПОСЛУГ, ПОРЯДОК РОЗРАХУНКІВ ТА ДОСТАВКА</h3>
                     <p>3.1. Вартість участі у Заході становить:</p>
                     <ul className="list-disc pl-5 space-y-1">
                       <li>При оплаті до 01 квітня 2026 року включно — 1500,00 грн.</li>
                       <li>При оплаті з 02 по 15 квітня 2026 року включно — 1700,00 грн.</li>
                     </ul>
-                    <p>3.2. Оплата здійснюється у безготівковій формі через платіжний сервіс на сайті Виконавця. Реєстрація завершується 15 квітня 2026 року.</p>
+                    <p>3.2. Оплата здійснюється у безготівковій формі за допомогою платіжної інфраструктури WayForPay (картки Visa, MasterCard, Google Pay, Apple Pay). Реєстрація вважається успішною після підтвердження оплати.</p>
+                    <p>3.3. Доставка послуги: Оскільки послуга є нематеріальною (участь у заході), доставкою вважається надання доступу до Заходу. Одразу після оплати Замовник отримує електронне підтвердження реєстрації у месенджері Telegram або на Email. Жодні фізичні квитки не надсилаються почтою.</p>
                   </section>
 
-                  <section>
-                    <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">4. УМОВИ ВІДМОВИ ТА ПОВЕРНЕННЯ КОШТІВ</h3>
+                  <section id="refund">
+                    <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">4. УМОВИ ПОВЕРНЕННЯ КОШТІВ ТА СКАСУВАННЯ ТРАНЗАКЦІЙ (REFUND POLICY)</h3>
                     <p>4.1. У разі відмови Замовника від участі, повернення коштів здійснюється з урахуванням витрат Виконавця на адміністрування та бронювання послуг підрядників:</p>
                     <ul className="list-disc pl-5 space-y-2">
-                      <li>При відмові до 27 березня 2026 року включно: повертається 90% від сплаченої суми. Утримана частка (10%) є сервісним збором, що покриває банківські комісії та витрати на реєстрацію.</li>
+                      <li>При відмові до 27 березня 2026 року включно: повертається 90% від сплаченої суми.</li>
                       <li>При відмові з 28 березня по 07 квітня 2026 року включно: повертається 50% від сплаченої суми.</li>
-                      <li>При відмові після 07 квітня 2026 року: повернення коштів не здійснюється, оскільки всі витрати на організацію участі Замовника є фактично понесеними та незворотними.</li>
+                      <li>При відмові після 07 квітня 2026 року: повернення коштів не здійснюється.</li>
                     </ul>
-                    <p>4.2. Замовник може передати своє право участі іншій особі, повідомивши про це Виконавця не пізніше ніж за 48 годин до початку Заходу.</p>
+                    <p>4.2. Для повернення коштів необхідно надіслати заяву на email: otvintarj@gmail.com з вказанням ПІБ та номера замовлення.</p>
                   </section>
 
                   <section>
@@ -1365,22 +1386,14 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-white font-black uppercase tracking-tighter mb-6">Навігація</h4>
+            <h4 className="text-white font-black uppercase tracking-tighter mb-6">Юридична інформація</h4>
             <ul className="space-y-4 text-white/60 font-medium">
-              <li><a href="#about" className="hover:text-brand-primary transition-colors">Про конференцію</a></li>
-              <li><a href="#program" className="hover:text-brand-primary transition-colors">Програма</a></li>
-              <li><a href="#workshops" className="hover:text-brand-primary transition-colors">Воркшопи</a></li>
-              <li><a href="#speakers" className="hover:text-brand-primary transition-colors">Спікери</a></li>
-              <li><a href="#tickets" className="hover:text-brand-primary transition-colors">Реєстрація</a></li>
-              <li className="pt-4">
-                <a 
-                  href="https://docs.google.com/document/d/1jTglOzrs2CZsMnyQCFts0jYIacF0vta0yaLLMBw2iAs/edit?tab=t.0" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-block bg-white/10 hover:bg-white/20 border border-white/10 hover:border-brand-primary text-white px-5 py-2.5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg"
-                >
-                  Готелі для проживання
-                </a>
+              <li><Link to="/offer" className="hover:text-brand-primary transition-colors">Публічна оферта</Link></li>
+              <li><Link to="/offer#refund" className="hover:text-brand-primary transition-colors">Політика повернення</Link></li>
+              <li><Link to="/offer#payment" className="hover:text-brand-primary transition-colors">Оплата та доставка</Link></li>
+              <li className="pt-4 flex gap-3 opacity-50 grayscale hover:grayscale-0 transition-all">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" className="h-4 w-auto object-contain" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-6 w-auto object-contain" />
               </li>
             </ul>
           </div>
@@ -1484,25 +1497,26 @@ const PublicOfferPage = () => {
             <p>2.2. Послуги включають доступ до програми Заходу протягом обох днів, кава-брейки, харчування та пакет учасника.</p>
           </section>
 
-          <section>
-            <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">3. ВАРТІСТЬ ПОСЛУГ ТА ПОРЯДОК РОЗРАХУНКІВ</h3>
+          <section id="payment">
+            <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">3. ВАРТІСТЬ ПОСЛУГ, ПОРЯДОК РОЗРАХУНКІВ ТА ДОСТАВКА</h3>
             <p className="mb-2">3.1. Вартість участі у Заході становить:</p>
             <ul className="list-disc pl-5 space-y-1 mb-2">
               <li>При оплаті до 01 квітня 2026 року включно — 1500,00 грн.</li>
               <li>При оплаті з 02 по 15 квітня 2026 року включно — 1700,00 грн.</li>
             </ul>
-            <p>3.2. Оплата здійснюється у безготівковій формі через платіжний сервіс на сайті Виконавця. Реєстрація завершується 15 квітня 2026 року.</p>
+            <p className="mb-2">3.2. Оплата здійснюється онлайн за допомогою банківських карток Visa, MasterCard, а також платіжних систем Google Pay та Apple Pay через сервіс WayForPay.</p>
+            <p>3.3. Умови доставки: Отримання послуги відбувається в дні проведення заходу. Підтвердження реєстрації є електронним документом, що надсилається Замовнику у месенджер Telegram або на Email одразу після транзакції.</p>
           </section>
 
-          <section>
-            <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">4. УМОВИ ВІДМОВИ ТА ПОВЕРНЕННЯ КОШТІВ</h3>
-            <p className="mb-2">4.1. У разі відмови Замовника від участі, повернення коштів здійснюється з урахуванням витрат Виконавця на адміністрування та бронювання послуг підрядників:</p>
+          <section id="refund">
+            <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">4. УМОВИ ПОВЕРНЕННЯ КОШТІВ ТА СКАСУВАННЯ ТРАНЗАКЦІЙ (REFUND POLICY)</h3>
+            <p className="mb-2">4.1. У разі відмови Замовника від участі, повернення коштів здійснюється за наступною шкалою:</p>
             <ul className="list-disc pl-5 space-y-2 mb-2">
-              <li>При відмові до 27 березня 2026 року включно: повертається 90% від сплаченої суми. Утримана частка (10%) є сервісним збором, що покриває банківські комісії та витрати на реєстрацію.</li>
-              <li>При відмові з 28 березня по 07 квітня 2026 року включно: повертається 50% від сплаченої суми.</li>
-              <li>При відмові після 07 квітня 2026 року: повернення коштів не здійснюється, оскільки всі витрати на організацію участі Замовника є фактично понесеними та незворотними.</li>
+              <li>При відмові до 27 березня 2026 року включно: повертається 90% сплаченої суми.</li>
+              <li>При відмові з 28 березня по 07 квітня 2026 року включно: повертається 50% сплаченої суми.</li>
+              <li>При відмові після 07 квітня 2026 року: повернення коштів не здійснюється.</li>
             </ul>
-            <p>4.2. Замовник може передати своє право участі іншій особі, повідомивши про це Виконавця не пізніше ніж за 48 годин до початку Заходу.</p>
+            <p>4.2. Термін обробки запиту на повернення — до 7 робочих днів. Для оформлення повернення зверніться на otvintarj@gmail.com.</p>
           </section>
 
           <section>
@@ -1514,23 +1528,23 @@ const PublicOfferPage = () => {
             <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-4">6. РЕКВІЗИТИ ВИКОНАВЦЯ</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <div>
-                <p className="text-white/40 uppercase mb-1">Виконавець</p>
+                <p className="text-white/40 uppercase mb-1">Повне найменування</p>
                 <p className="text-white font-bold">ФОП Марченко Віталій Романович</p>
               </div>
               <div>
-                <p className="text-white/40 uppercase mb-1">ІПН</p>
+                <p className="text-white/40 uppercase mb-1">ІПН / Код за ЄДРПОУ</p>
                 <p className="text-white font-bold">3340008753</p>
               </div>
               <div className="md:col-span-2">
-                <p className="text-white/40 uppercase mb-1">Адреса реєстрації</p>
-                <p className="text-white font-bold">м. Запоріжжя, вул. Фортечна, 88/102</p>
+                <p className="text-white/40 uppercase mb-1">Юридична та фактична адреса</p>
+                <p className="text-white font-bold">69002, м. Запоріжжя, вул. Фортечна, 88 кв. 102</p>
               </div>
               <div>
-                <p className="text-white/40 uppercase mb-1">Email</p>
+                <p className="text-white/40 uppercase mb-1">Email для зв'язку</p>
                 <p className="text-white font-bold">otvintarj@gmail.com</p>
               </div>
               <div>
-                <p className="text-white/40 uppercase mb-1">Тел</p>
+                <p className="text-white/40 uppercase mb-1">Контактний телефон</p>
                 <p className="text-white font-bold">+38 (093) 786-91-47</p>
               </div>
             </div>

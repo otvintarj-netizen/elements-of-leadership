@@ -150,10 +150,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative pt-32 pb-12 md:pt-48 md:pb-16 overflow-hidden bg-brand-dark">
-      {/* Red Tint Overlay */}
-      <div className="absolute inset-0 bg-brand-primary/20 z-0 pointer-events-none" />
-      
+    <section className="relative pt-32 pb-12 md:pt-48 md:pb-16 overflow-hidden bg-brand-primary">
       {/* Background Image - Mobile */}
       <div 
         className="absolute inset-0 w-full h-full z-0 pointer-events-none md:hidden"
@@ -161,8 +158,8 @@ const Hero = () => {
           backgroundImage: "url('/телефон.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.4,
-          mixBlendMode: "multiply"
+          opacity: 0.8,
+          mixBlendMode: "overlay"
         }}
       />
       
@@ -173,8 +170,8 @@ const Hero = () => {
           backgroundImage: "url('/головна.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.4,
-          mixBlendMode: "multiply"
+          opacity: 0.8,
+          mixBlendMode: "overlay"
         }}
       />
       

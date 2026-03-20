@@ -158,7 +158,7 @@ const Hero = () => {
           backgroundImage: "url('/телефон.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.8,
+          opacity: 0.6,
           mixBlendMode: "overlay"
         }}
       />
@@ -170,7 +170,7 @@ const Hero = () => {
           backgroundImage: "url('/головна.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.8,
+          opacity: 0.6,
           mixBlendMode: "overlay"
         }}
       />

@@ -1288,11 +1288,6 @@ const RegistrationPage = () => {
                     <p>4.2. Для повернення коштів необхідно надіслати заяву на email: otvintarj@gmail.com з вказанням ПІБ та номера замовлення.</p>
                   </section>
 
-                  <section>
-                    <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-2">5. ПЕРСОНАЛЬНІ ДАНІ</h3>
-                    <p>5.1. Здійснюючи оплату, Замовник надає згоду на збір та обробку персональних даних (ПІБ, телефон, область, назва церкви) для організації Заходу та додавання до чату конференції у Telegram.</p>
-                  </section>
-
                   <section className="pt-6 border-t border-white/10">
                     <h3 className="text-white font-bold uppercase tracking-widest text-xs mb-4">6. РЕКВІЗИТИ ВИКОНАВЦЯ</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
@@ -1305,8 +1300,8 @@ const RegistrationPage = () => {
                         <p className="text-white font-bold">3340008753</p>
                       </div>
                       <div className="md:col-span-2">
-                        <p className="text-white/40 uppercase mb-1">Адреса реєстрації</p>
-                        <p className="text-white font-bold">м. Запоріжжя, вул. Фортечна, 88/102</p>
+                        <p className="text-white/40 uppercase mb-1">Юридична та фактична адреса</p>
+                        <p className="text-white font-bold">69002, м. Запоріжжя, вул. Фортечна, 88 кв. 102</p>
                       </div>
                       <div>
                         <p className="text-white/40 uppercase mb-1">Email</p>
@@ -1399,12 +1394,8 @@ const Footer = () => {
               <li className="text-white/80 font-bold">ФОП Марченко Віталій Романович</li>
               <li>ІПН: 3340008753</li>
               <li className="pt-2"><Link to="/offer" className="text-white hover:text-brand-primary transition-colors border-b border-white/20 pb-0.5">Публічна оферта</Link></li>
-              <li><Link to="/offer#refund" className="text-white hover:text-brand-primary transition-colors border-b border-white/10 pb-0.5">Політика повернення</Link></li>
+              <li><Link to="/offer#refund" className="text-white hover:text-brand-primary transition-colors border-b border-white/20 pb-0.5">Політика повернення</Link></li>
               <li><Link to="/offer#payment" className="text-white hover:text-brand-primary transition-colors border-b border-white/10 pb-0.5">Оплата та доставка</Link></li>
-              <li className="pt-4 flex gap-4 bg-white/5 p-3 rounded-xl w-fit">
-                <img src="https://static.wayforpay.com/img/visa.svg" alt="Visa" className="h-4 w-auto object-contain" />
-                <img src="https://static.wayforpay.com/img/mastercard.svg" alt="Mastercard" className="h-6 w-auto object-contain" />
-              </li>
             </ul>
           </div>
         </div>

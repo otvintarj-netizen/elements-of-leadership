@@ -629,6 +629,7 @@ const Workshops = () => {
 };
 
 const Speakers = () => {
+  const [activeSpeaker, setActiveSpeaker] = useState<number | null>(null);
   const speakers = [
     {
       name: 'Козачок Анатолій',
@@ -744,25 +745,27 @@ const Speakers = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
               whileHover={{ y: -5 }}
-              className="group relative overflow-hidden rounded-2xl glass"
+              onClick={() => setActiveSpeaker(activeSpeaker === idx ? null : idx)}
+              className="group relative overflow-hidden rounded-2xl glass cursor-pointer outline-none"
+              tabIndex={0}
             >
               <div className="aspect-[4/5] overflow-hidden">
                 <img 
                   src={speaker.image} 
                   alt={speaker.name} 
-                  className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
+                  className={`w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110 ${activeSpeaker === idx ? 'grayscale-0 scale-110' : ''}`}
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              <div className={`absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none ${activeSpeaker === idx ? 'opacity-100' : ''}`} />
               <div className="absolute bottom-0 left-0 right-0 p-5">
                 <h3 className="text-lg sm:text-xl font-bold text-white leading-tight">
                   <span className="block">{speaker.name.split(' ')[0]}</span>
                   <span className="block">{speaker.name.split(' ').slice(1).join(' ')}</span>
                 </h3>
-                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500">
+                <div className={`grid transition-all duration-500 ${activeSpeaker === idx ? 'grid-rows-[1fr]' : 'grid-rows-[0fr] group-hover:grid-rows-[1fr]'}`}>
                   <div className="overflow-hidden">
-                    <div className="pt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                    <div className={`pt-3 transition-opacity duration-500 delay-100 ${activeSpeaker === idx ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                       <span className="text-[10px] sm:text-xs font-black text-brand-primary uppercase tracking-widest block leading-tight">{speaker.role}</span>
                     </div>
                   </div>

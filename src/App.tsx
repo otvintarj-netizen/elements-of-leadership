@@ -276,15 +276,6 @@ const Hero = () => {
               Реєстрація
               <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
             </a>
-            <a 
-              href="https://docs.google.com/document/d/1jTglOzrs2CZsMnyQCFts0jYIacF0vta0yaLLMBw2iAs/edit?usp=drivesdk" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group bg-white/10 backdrop-blur-md border border-white/20 px-10 py-5 rounded-full font-bold text-xl uppercase tracking-tighter transition-all flex items-center gap-3 hover:bg-white/20"
-            >
-              Готелі
-              <Hotel className="w-6 h-6 group-hover:scale-110 transition-transform" />
-            </a>
           </motion.div>
 
 
@@ -668,8 +659,8 @@ const Speakers = () => {
     },
     {
       name: 'Орищин Олександр',
-      role: 'Пастор церкви',
-      desc: 'Служитель, що надихає молодь на розвиток.',
+      role: 'Директор ІЛУК. Пастор церкви',
+      desc: 'Директор ІЛУК. Пастор церкви',
       image: '/speakers/Орищин Олександр 4.webp'
     },
     {
@@ -1344,6 +1335,46 @@ const RegistrationPage = () => {
   );
 };
 
+const Hotels = () => {
+  return (
+    <section className="py-20 relative overflow-hidden flex items-center justify-center">
+      <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="glass p-12 md:p-16 rounded-[40px] border border-white/10 shadow-2xl"
+        >
+          <div className="w-20 h-20 bg-brand-primary/10 rounded-full flex items-center justify-center mx-auto mb-8">
+            <Hotel className="w-10 h-10 text-brand-primary" />
+          </div>
+          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-6">
+            Потрібне житло?
+          </h2>
+          <p className="text-white/60 mb-10 text-lg leading-relaxed max-w-2xl mx-auto font-medium">
+            Ми підготували список рекомендованих готелів поруч із місцем проведення конференції, 
+            щоб ваше перебування було максимально зручним та комфортним.
+          </p>
+          <div className="flex justify-center">
+            <a 
+              href="https://docs.google.com/document/d/1jTglOzrs2CZsMnyQCFts0jYIacF0vta0yaLLMBw2iAs/edit?usp=drivesdk" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white text-brand-primary px-10 py-5 rounded-full font-black text-xl uppercase tracking-tighter transition-all flex items-center gap-3 shadow-2xl hover:scale-105"
+            >
+              Список готелів
+              <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+            </a>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Background decoration */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-primary/5 blur-[120px] rounded-full pointer-events-none" />
+    </section>
+  );
+};
+
 const Footer = () => {
   return (
     <footer id="footer" className="pt-16 pb-12 border-t border-white/5">
@@ -1606,6 +1637,7 @@ export default function App() {
                 <Workshops />
                 <Speakers />
                 <Tickets />
+                <Hotels />
               </>
             } />
             <Route path="/register" element={<RegistrationPage />} />
